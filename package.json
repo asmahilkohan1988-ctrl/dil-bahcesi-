@@ -1,0 +1,80 @@
+{
+  "name": "dil-bahcesi",
+  "productName": "Dil Bahçesi",
+  "version": "1.0.0",
+  "description": "İşitme kaybı olan 3–6. sınıf öğrencileri için Türkçe dil bilgisi ve okuduğunu anlama etkinlikleri.",
+  "author": "Dil Bahçesi",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "masaustu": "electron .",
+    "masaustu:derle": "electron-builder --publish never",
+    "android:hazirla": "cap add android && capacitor-assets generate --android && cap sync android"
+  },
+  "dependencies": {
+    "@capacitor-community/text-to-speech": "4.1.0",
+    "@capacitor/android": "6.2.0",
+    "@capacitor/core": "6.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "6.2.0",
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "org.dilbahcesi.app",
+    "productName": "Dil Bahçesi",
+    "artifactName": "DilBahcesi-${version}-${os}-${arch}.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**",
+      "www/**",
+      "package.json",
+      "!node_modules/@capacitor/**",
+      "!node_modules/@capacitor-community/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Dil Bahçesi"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "category": "public.app-category.education",
+      "icon": "build/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Education",
+      "icon": "build/icon.png"
+    }
+  }
+}

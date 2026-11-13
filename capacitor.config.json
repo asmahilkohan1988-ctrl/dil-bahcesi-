@@ -1,0 +1,8 @@
+{
+  "appId": "org.dilbahcesi.app",
+  "appName": "Dil Bahçesi",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#EAF3F6"
+  }
+}

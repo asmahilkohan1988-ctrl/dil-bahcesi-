@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dil Bahçesi</title>
+<meta name="description" content="İşitme kaybı olan 3–6. sınıf öğrencileri için Türkçe dil bilgisi ve okuduğunu anlama etkinlikleri.">
+<meta name="theme-color" content="#0C7480">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dil Bahçesi">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Renk düzeni Renkli Anlambilim (Colourful Semantics) yöntemine dayanır:
+   Özne=turuncu, Yüklem=sarı, Nesne=yeşil, Dolaylı tümleç=mavi, Zarf tümleci=kahve. */
+:root{
+  --bg:#EAF3F6; --surface:#FFFFFF; --sunk:#DCE9EF; --ink:#17263A; --muted:#55687D; --line:#C9DAE3;
+  --accent:#0C7480; --accent-ink:#FFFFFF;
+  --who:#EE8320; --doing:#E2B100; --what:#36A257; --where:#2F7FD3; --when:#9A6236; --pron:#9C6ADE; --num:#E0679A;
+  --kind:#A3B43A; --case:#7986E8; --read:#4FB3A6; --build:#62C5E8; --mean:#F08C7A; --mix:#93A6BA;
+  --good:#228A4F; --bad:#C8463F;
+  --f-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Nunito","Segoe UI",system-ui,sans-serif;
+  --scale:1;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1B26; --surface:#182838; --sunk:#132230; --ink:#EEF4F8; --muted:#A3B5C5; --line:#2A3F52;
+  --accent:#3FB8C4; --accent-ink:#06222A;
+  --who:#F5994A; --doing:#F0C935; --what:#56C277; --where:#5EA2EC; --when:#C68B5C; --pron:#B08CEB; --num:#EE84B0;
+  --kind:#C3D45A; --case:#9AA5F2; --read:#6FCFC2; --build:#7FD3F0; --mean:#F5A394; --mix:#7E93A8;
+  --good:#4FC37E; --bad:#EF7A72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1B26; --surface:#182838; --sunk:#132230; --ink:#EEF4F8; --muted:#A3B5C5; --line:#2A3F52;
+  --accent:#3FB8C4; --accent-ink:#06222A;
+  --who:#F5994A; --doing:#F0C935; --what:#56C277; --where:#5EA2EC; --when:#C68B5C; --pron:#B08CEB; --num:#EE84B0;
+  --kind:#C3D45A; --case:#9AA5F2; --read:#6FCFC2; --build:#7FD3F0; --mean:#F5A394; --mix:#7E93A8;
+  --good:#4FC37E; --bad:#EF7A72; color-scheme:dark}
+
+html,body{height:100%;margin:0}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:calc(17px*var(--scale));line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+input{-webkit-user-select:text;user-select:text}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.1;text-wrap:balance}
+
+.app{max-width:860px;margin:0 auto;height:100%;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:10px;padding-block:12px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.35em;white-space:nowrap;display:flex;align-items:center;gap:8px;margin-right:auto;background:none;border:0;padding:0}
+.brand img{width:34px;height:34px;border-radius:9px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:800;font-variant-numeric:tabular-nums}
+.icon-btn{width:44px;height:44px;border-radius:14px;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:1.15em}
+.icon-btn[aria-pressed="false"]{opacity:.55}
+main{flex:1;overflow-y:auto;padding-bottom:28px}
+.screen{display:flex;flex-direction:column;gap:18px}
+
+/* ---------- Ana sayfa ---------- */
+.hello{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;justify-content:space-between}
+.hello h1{font-size:2em}
+.hello p{margin:4px 0 0;color:var(--muted)}
+.name-row{display:flex;gap:8px;flex-wrap:wrap}
+.name-row input{font:inherit;font-weight:700;padding:10px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);min-width:0;width:220px;max-width:100%}
+.grades{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grades span{font-weight:800;color:var(--muted);margin-right:4px}
+.grades button{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:800;font-family:var(--f-display);font-size:1.05em;min-height:44px}
+.grades button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.legend span{font-size:.78em;font-weight:800;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 18%,var(--surface));border:2px solid var(--c)}
+.group{font-size:.8em;font-weight:800;letter-spacing:.08em;color:var(--muted);margin:6px 0 -6px}
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px}
+.mod{position:relative;text-align:left;background:var(--surface);border:3px solid color-mix(in srgb,var(--c) 45%,var(--line));border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:6px;transition:transform .15s}
+.mod:hover{transform:translateY(-3px)}
+.mod:active{transform:scale(.97)}
+.mod .em{font-size:2em;line-height:1}
+.mod .q{align-self:flex-start;font-size:.7em;font-weight:800;letter-spacing:.05em;padding:3px 9px;border-radius:999px;background:var(--c);color:#1a1205}
+.mod h3{font-size:1.25em}
+.mod small{color:var(--muted);font-weight:700;flex:1}
+.bar{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c);border-radius:99px}
+.home-foot{display:flex;flex-wrap:wrap;gap:10px}
+.btn{border:0;border-radius:16px;padding:12px 20px;font-weight:800;font-size:1.05em;background:var(--accent);color:var(--accent-ink);display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn.ghost{background:var(--surface);color:var(--ink);border:2px solid var(--line)}
+.btn.big{font-size:1.3em;padding:16px 28px;border-radius:20px}
+
+/* ---------- Oyun ---------- */
+.prog{display:flex;gap:5px}
+.prog i{flex:1;height:10px;border-radius:99px;background:var(--sunk)}
+.prog i.ok{background:var(--good)}
+.prog i.try{background:var(--doing)}
+.prog i.now{background:var(--accent)}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:28px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.pic{font-size:calc(3.6em*var(--scale));line-height:1.1;letter-spacing:.05em}
+.pic.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 10px;font-size:calc(3em*var(--scale));max-width:420px}
+.pic .digit{font-family:var(--f-display);font-weight:800;color:var(--num);margin-right:10px}
+.badge{font-family:var(--f-display);font-weight:800;font-size:1.15em;letter-spacing:.04em;padding:4px 18px;border-radius:999px;background:var(--c);color:#1a1205}
+.prompt{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap}
+.prompt p{margin:0;font-size:1.2em;font-weight:800;max-width:36ch}
+.say{width:48px;height:48px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:1.3em;display:grid;place-items:center;flex:none}
+.say.on{animation:pulse 1s infinite}
+
+.frame{font-family:var(--f-display);font-weight:700;font-size:1.5em;line-height:1.45;max-width:34ch}
+.blank{display:inline-block;min-width:3.4em;border-bottom:4px dashed var(--accent);color:var(--accent);padding:0 6px}
+.blank.filled{border-bottom-style:solid;color:var(--good);border-color:var(--good)}
+.mark{color:var(--ink);background:color-mix(in srgb,var(--c) 28%,var(--surface));border-bottom:4px solid var(--c);border-radius:8px 8px 0 0;padding:0 6px}
+.passage{font-family:var(--f-body);font-size:.72em;font-weight:700;line-height:1.65;text-align:left;background:var(--sunk);border-radius:18px;padding:14px 16px;max-width:60ch}
+.qtext{margin:14px 0 0;font-size:.85em}
+.frame:has(.passage){max-width:60ch}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{font-family:var(--f-display);font-weight:700;font-size:1.35em;padding:8px 16px;border-radius:18px;border:3px solid var(--line);background:var(--surface);min-height:58px;transition:transform .12s,background .2s}
+.chip:active{transform:scale(.94)}
+.chip.role{background:color-mix(in srgb,var(--c) 20%,var(--surface));border-color:var(--c)}
+.chip.right{background:color-mix(in srgb,var(--good) 22%,var(--surface));border-color:var(--good)}
+.chip.wrong{opacity:.35;border-style:dashed}
+.chip.hint{animation:pulse 1s infinite;border-color:var(--accent)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;width:100%;max-width:620px}
+.opt{font-family:var(--f-display);font-weight:700;font-size:1.25em;padding:12px;border-radius:20px;border:3px solid var(--line);background:var(--surface);min-height:62px}
+.opt.right{background:color-mix(in srgb,var(--good) 22%,var(--surface));border-color:var(--good)}
+.opt.wrong{opacity:.35;border-style:dashed}
+.opt.hint{animation:pulse 1s infinite;border-color:var(--accent)}
+
+.slots{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.slot{min-width:96px;min-height:64px;border-radius:18px;border:3px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 6px;background:var(--sunk)}
+.slot.role{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--sunk))}
+.slot .lbl{font-size:.62em;font-weight:800;letter-spacing:.05em;color:var(--muted)}
+.slot .chip{font-size:1.2em;min-height:auto;padding:4px 12px}
+.slot.good{border-style:solid;border-color:var(--good)}
+.dot{display:none}
+
+.timeline{display:flex;align-items:center;width:100%;max-width:520px}
+.timeline .st{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:.82em;color:var(--muted);position:relative}
+.timeline .st b{width:22px;height:22px;border-radius:50%;background:var(--sunk);border:3px solid var(--line);z-index:1}
+.timeline .st::before{content:"";position:absolute;top:10px;left:0;right:0;height:4px;background:var(--line)}
+.timeline .st.always::before{background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}
+.timeline .st.on{color:var(--when)}
+.timeline .st.on b{background:var(--when);border-color:var(--when);transform:scale(1.35)}
+
+.colored{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.colored div{display:flex;flex-direction:column;align-items:center;gap:2px}
+.colored span{font-family:var(--f-display);font-weight:700;font-size:1.2em;padding:2px 12px;border-radius:12px;background:color-mix(in srgb,var(--c) 22%,var(--surface));border:2px solid var(--c)}
+.colored small{font-size:.66em;font-weight:800;letter-spacing:.05em;color:var(--muted)}
+
+.feedback{min-height:56px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.fb{font-family:var(--f-display);font-weight:800;font-size:1.6em;display:flex;align-items:center;gap:10px}
+.fb.good{color:var(--good)} .fb.bad{color:var(--bad)}
+.note{background:color-mix(in srgb,var(--accent) 12%,var(--surface));border:2px solid color-mix(in srgb,var(--accent) 40%,var(--line));border-radius:16px;padding:10px 14px;font-weight:700;max-width:56ch;text-align:left}
+.note b{color:var(--accent)}
+.shake{animation:shake .45s}
+.play-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* ---------- Sonuç / koleksiyon ---------- */
+.done{align-items:center;text-align:center}
+.done h1{font-size:2.4em}
+.stars{font-size:2.2em;letter-spacing:.08em;max-width:100%;overflow-wrap:anywhere}
+.sticker{font-size:5em;width:1.6em;height:1.6em;display:grid;place-items:center;border-radius:50%;background:var(--surface);border:4px solid var(--doing);animation:pop .7s}
+.album{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+.album div{aspect-ratio:1;max-width:100%;border-radius:20px;display:grid;place-items:center;font-size:2.6em;background:var(--surface);border:2px solid var(--line)}
+.album div.no{background:var(--sunk);color:var(--muted);font-size:1.6em;font-family:var(--f-display);font-weight:800;border-style:dashed}
+
+/* ---------- Pencereler ---------- */
+.sheet-back{position:fixed;inset:0;background:color-mix(in srgb,var(--ink) 45%,transparent);display:grid;place-items:center;padding:16px;z-index:20}
+.sheet{background:var(--surface);border-radius:24px;padding:20px;width:100%;max-width:560px;max-height:90%;overflow:auto;display:flex;flex-direction:column;gap:14px}
+.sheet h2{font-size:1.5em}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.row label{font-weight:800}
+.row small{display:block;color:var(--muted);font-weight:600}
+.tog{width:58px;height:34px;border-radius:99px;border:0;background:var(--sunk);position:relative;flex:none}
+.tog::after{content:"";position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:var(--muted);transition:left .2s}
+.tog[aria-checked="true"]{background:var(--good)}
+.tog[aria-checked="true"]::after{left:28px;background:#fff}
+select{font:inherit;font-weight:700;padding:8px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+td,th{padding:8px 4px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-size:.78em;letter-spacing:.05em;color:var(--muted)}
+.small{font-size:.88em;color:var(--muted)}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:30}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+@keyframes pop{0%{transform:scale(0) rotate(-30deg)}70%{transform:scale(1.15) rotate(6deg)}100%{transform:scale(1)}}
+@keyframes rise{from{transform:translateY(8px);opacity:.4}to{transform:none;opacity:1}}
+.card{animation:rise .25s ease-out}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:480px){.pic{font-size:calc(2.8em*var(--scale))}.chip{font-size:1.15em}.frame{font-size:1.25em}.hello h1{font-size:1.6em}.opt{font-size:1.1em}.card{padding:16px}.grades button{padding:8px 12px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <button class="brand" id="homeBtn" aria-label="Ana sayfa"><img src="icons/icon-192.png" alt="">Dil Bahçesi</button>
+    <span class="pill" title="Toplam yıldız">⭐ <span id="starCount">0</span></span>
+    <button class="icon-btn" id="soundBtn" aria-pressed="true" aria-label="Ses açık/kapalı">🔊</button>
+    <button class="icon-btn" id="setBtn" aria-label="Ayarlar">⚙️</button>
+  </header>
+  <main id="main"></main>
+</div>
+<canvas id="confetti"></canvas>
+<div id="sheet" hidden></div>
+
+<script>
+/* ================== YARDIMCI ================== */
+const $=s=>document.querySelector(s);
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sentText=w=>w.map(x=>x[0]).join(' ')+'.';
+const pick=(right,pool,k=4)=>[right,...shuffle(pool.filter(x=>x!==right)).slice(0,k-1)];
+function vibrate(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+
+/* ================== SORU YAZMA KISAYOLLARI ==================
+   Seçenekler noktalı virgülle (;) ayrılır ve İLK seçenek DOĞRU cevaptır.
+   F(resim, 'Boşluklu ___ cümle.', 'doğru;yanlış;yanlış', 'açıklama')   → boşluk doldurma
+   M('Cümle.', 'işaretli kelime', 'Soru?', 'doğru;yanlış;yanlış', 'açıklama') → işaretli kelime sorusu
+   Cümleler (SENT):  'resim|öbek:ROL|öbek:ROL|...'
+   Roller: S=Özne V=Yüklem O=Nesne P=Dolaylı tümleç (nereye/nerede/kime) Z=Zarf tümleci (ne zaman/nasıl)
+   Her liste sınıflara ayrılmıştır: {3:[...], 4:[...], 5:[...], 6:[...]} */
+const F=(p,s,o,n,t)=>({p,s,o:o.split(';'),n,t});
+const M=(s,u,q,o,n,p)=>({s,u,q,o:o.split(';'),n,p});
+
+/* ================== VERİ ================== */
+const ROLE = {
+  S:{ad:'ÖZNE',kid:'KİM?',soru:'KİM? NE?',c:'--who'},
+  V:{ad:'YÜKLEM',kid:'NE YAPIYOR?',soru:'NE YAPIYOR?',c:'--doing'},
+  O:{ad:'NESNE',kid:'NEYİ?',soru:'NEYİ? NE?',c:'--what'},
+  P:{ad:'DOLAYLI TÜMLEÇ',kid:'NEREDE? NEREYE?',soru:'NEREYE? KİME?',c:'--where'},
+  Z:{ad:'ZARF TÜMLECİ',kid:'NE ZAMAN? NASIL?',soru:'NASIL? NE ZAMAN?',c:'--when'}
+};
+
+const SENT_RAW = {
+3:[
+  '🐱🥛|Kedi:S|sütü:O|içti:V','👧📖|Ayşe:S|kitabı:O|okuyor:V','👦⚽|Ali:S|topu:O|attı:V',
+  '👩‍🍳🎂|Annem:S|pasta:O|yaptı:V','🐶🦴|Köpek:S|kemiği:O|yedi:V','👴📰|Dedem:S|gazete:O|okuyor:V',
+  '👧🎨|Zeynep:S|resim:O|çiziyor:V','👨🚗|Babam:S|arabayı:O|yıkadı:V','🐰🥕|Tavşan:S|havuç:O|yiyor:V',
+  '👩🌷|Ablam:S|çiçekleri:O|suladı:V','🐦🌳|Kuşlar:S|ağaçta:P|ötüyor:V','🐟🌊|Balıklar:S|suda:P|yüzüyor:V',
+  '🐱🛋️|Kedi:S|koltukta:P|uyuyor:V','👦🦷|Can:S|dişlerini:O|fırçaladı:V','👦🍞|Emre:S|ekmek:O|aldı:V',
+  '🐄🌾|İnek:S|ot:O|yiyor:V','👦🪁|Kerem:S|uçurtmayı:O|uçurdu:V','🐒🍌|Maymun:S|muzu:O|soydu:V',
+  '👦🧩|Ahmet:S|yapbozu:O|bitirdi:V','🧒🎈|Taha:S|balonu:O|şişirdi:V','🐝🌼|Arı:S|bal:O|yapıyor:V',
+  '👧🏫|Ayşe:S|okula:P|gitti:V','🐸💧|Kurbağa:S|suya:P|atladı:V','✈️☁️|Uçak:S|gökyüzünde:P|uçuyor:V',
+  '👶🛏️|Bebek:S|beşikte:P|uyuyor:V','👨🏠|Babam:S|eve:P|geldi:V','🐱🐭|Kedi:S|fareyi:O|yakaladı:V',
+  '👮|Polis:S|hırsızı:O|yakaladı:V','👦🚪|Mustafa:S|kapıyı:O|kapattı:V','🐘💧|Fil:S|su:O|içiyor:V',
+  '🐱🌳|Kedi:S|ağaca:P|tırmandı:V','🦆💧|Ördekler:S|gölde:P|yüzüyor:V','🚆|Tren:S|istasyona:P|geldi:V',
+  '👧🎤|Zehra:S|şarkı:O|söyledi:V','🐻🍯|Ayı:S|balı:O|buldu:V'
+],
+4:[
+  '🛝☀️|Dün:Z|biz:S|parkta:P|oynadık:V','👦⚽🌳|Ali:S|topu:O|bahçeye:P|attı:V',
+  '👩🌸🏺|Annem:S|çiçekleri:O|vazoya:P|koydu:V','🧒📚🎒|Ela:S|kitapları:O|çantaya:P|koydu:V',
+  '⛄❄️|Dün:Z|çocuklar:S|kardan adam:O|yaptı:V','🏊|Yarın:Z|ben:S|havuza:P|gideceğim:V',
+  '🍳☀️|Sabah:Z|annem:S|yumurta:O|pişirdi:V','🌙📖|Akşam:Z|dedem:S|masal:O|anlattı:V',
+  '🚌|Bugün:Z|biz:S|otobüse:P|bindik:V','👨🚗|Babam:S|arabayı:O|garaja:P|koydu:V',
+  '👧🐱|Ayşe:S|kediyi:O|kucağına:P|aldı:V','👦🗑️|Can:S|çöpü:O|çöp kutusuna:P|attı:V',
+  '👩🥛|Annem:S|sütü:O|buzdolabına:P|koydu:V','🍦|Dün:Z|Ali:S|dondurma:O|yedi:V',
+  '🧁|Yarın:Z|annem:S|kek:O|yapacak:V','🌅🐦|Sabah:Z|kuşlar:S|ötüyor:V',
+  '🐢|Kaplumbağa:S|yavaş yavaş:Z|yürüyor:V','🏃|Ömer:S|hızlıca:Z|koştu:V',
+  '👩‍🏫📝|Öğretmen:S|tahtaya:P|soru:O|yazdı:V','👵🧶|Babaannem:S|bana:P|kazak:O|ördü:V',
+  '🐶⚽|Köpek:S|topu:O|bana:P|getirdi:V','👧✉️|Merve:S|arkadaşına:P|mektup:O|yazdı:V',
+  '📦🚚|Kargocu:S|paketi:O|komşumuza:P|verdi:V'
+],
+5:[
+  '🧑‍🔬🔬|Bilim insanları:S|yeni bir aşı:O|geliştirdi:V','🐝🌸|Arılar:S|çiçeklerden:P|bal özü:O|toplar:V',
+  '👴📜|Dedem:S|bize:P|çocukluk anılarını:O|anlattı:V','🧒💻|Kardeşim:S|ödevini:O|bilgisayarda:P|hazırladı:V',
+  '🎻🎶|Ablam:S|konserde:P|keman:O|çaldı:V','🧑‍🌾🍎|Çiftçiler:S|sonbaharda:Z|elmaları:O|topladı:V',
+  '✉️👵|Zeynep:S|anneannesine:P|uzun bir mektup:O|yazdı:V','🧹🏫|Nöbetçi öğrenciler:S|sınıfı:O|temizledi:V',
+  '🚒🔥|İtfaiyeciler:S|yangını:O|kısa sürede:Z|söndürdü:V','🧒🚲|Mehmet:S|bisikletiyle:Z|okula:P|gidiyor:V',
+  '👦📱|Can:S|arkadaşına:P|bir mesaj:O|gönderdi:V','🐿️🌰|Sincaplar:S|kış için:Z|fındık:O|saklar:V',
+  '👧🎤|Elif:S|okul töreninde:P|şiir:O|okudu:V','👦🧩|Taha:S|zor bulmacayı:O|sonunda:Z|çözdü:V',
+  '👧🐕|Ayşe:S|sokaktaki yavru köpeğe:P|su:O|verdi:V','🐜🍞|Karıncalar:S|ekmek kırıntılarını:O|yuvalarına:P|taşıdı:V',
+  '🧺🍓|Babaannem:S|bahçeden:P|taze çilek:O|topladı:V','🦉🌲|Baykuşlar:S|geceleri:Z|avlanır:V',
+  '⛄❄️|Çocuklar:S|okul bahçesinde:P|kocaman bir kardan adam:O|yaptı:V',
+  '🎒🏠|Öğrenciler:S|okuldan:P|eve:P|yürüyerek:Z|döndü:V'
+],
+6:[
+  '👩‍🏫📚|Öğretmenimiz:S|dün:Z|bize:P|yeni bir kitap:O|getirdi:V','👧🌷|Küçük kız:S|bahçedeki çiçekleri:O|özenle:Z|suladı:V',
+  '🧒🏫|Sınıftaki öğrenciler:S|teneffüste:Z|bahçeye:P|koştu:V','👩‍🍳🍲|Annem:S|akşam yemeği için:Z|mercimek çorbası:O|pişirdi:V',
+  '📖🌙|Ahmet Taha:S|her gece:Z|yatmadan önce:Z|kitap:O|okur:V','🚌🏛️|Okulumuz:S|gelecek hafta:Z|müzeye:P|bir gezi:O|düzenleyecek:V',
+  '⚽🏆|Takımımız:S|son maçı:O|büyük bir sevinçle:Z|kazandı:V','🌧️|Yağmur:S|dün akşam:Z|saatlerce:Z|yağdı:V',
+  '🦅⛰️|Kartal:S|yüksek dağların üzerinde:P|süzülüyordu:V','👨‍⚕️💊|Doktor:S|hastaya:P|ilacını:O|dikkatlice:Z|anlattı:V',
+  '📚🏛️|Öğrenciler:S|kütüphaneden:P|ödünç:Z|kitap:O|aldı:V','🐢🏖️|Deniz kaplumbağaları:S|yumurtalarını:O|kumsala:P|bırakır:V',
+  '🧑‍🎨🖼️|Genç ressam:S|tablosunu:O|sergiye:P|gönderdi:V','🛰️🌍|Uydu:S|Dünya’nın çevresinde:P|dönüyor:V',
+  '🧑‍🏫🗺️|Coğrafya öğretmeni:S|haritayı:O|tahtaya:P|astı:V','🧑‍🍳🥖|Fırıncı:S|sabahın erken saatlerinde:Z|ekmekleri:O|pişirir:V',
+  '👨‍👩‍👧🏕️|Ailecek:Z|yaz tatilinde:Z|kampa:P|gittik:V','🧑‍🌾🌱|Bahçıvan:S|fidanları:O|bahçenin köşesine:P|dikti:V',
+  '📰|Gazeteciler:S|olayı:O|ayrıntılarıyla:Z|yazdı:V','👧🧪|Selin:S|fen deneyini:O|dikkatle:Z|tamamladı:V',
+  '🚄|Hızlı tren:S|Ankara’dan:P|İstanbul’a:P|dört saatte:Z|gider:V','🐬🌊|Yunuslar:S|dalgaların arasında:P|neşeyle:Z|oynuyordu:V',
+  '👷🌉|İşçiler:S|köprünün yapımını:O|geçen ay:Z|bitirdi:V','📝👩‍🏫|Öğretmen:S|sınav kâğıtlarını:O|öğrencilere:P|dağıttı:V',
+  '🌅⛵|Balıkçılar:S|şafak vakti:Z|denize:P|açıldı:V','🧑‍💻🎮|Ağabeyim:S|yeni bir bilgisayar oyunu:O|tasarladı:V',
+  '✍️📕|Yazar:S|yeni romanını:O|iki yılda:Z|tamamladı:V','🏃‍♀️🏅|Millî atletimiz:S|yarışı:O|birincilikle:Z|bitirdi:V',
+  '🎂🎈|Arkadaşlarım:S|benim için:Z|sürpriz bir parti:O|hazırladı:V','🌋📊|Öğrenciler:S|yanardağlar hakkında:Z|bir sunum:O|yaptı:V',
+  '🕌📸|Turistler:S|tarihî camiyi:O|hayranlıkla:Z|gezdi:V','🐄🥛|Çiftçi:S|sabah erkenden:Z|inekleri:O|sağdı:V'
+]};
+
+// Zamirler
+const PTYPES=['Kişi zamiri','İşaret zamiri','Belgisiz zamir','Soru zamiri','Dönüşlülük zamiri'];
+const PT='İşaretli kelime hangi zamir türüdür?', ZS='İşaretli kelime zamir mi, sıfat mı?';
+const MP=(s,u,a,n)=>({s,u,q:PT,o:pick(a,PTYPES),n});
+const PRON = {
+3:[
+  F('🙋','Ben okula ___.','gidiyorum;gidiyor;gidiyoruz','Ben → gidiyor-<b>UM</b>'),
+  F('👉🧒','Sen resim ___.','çiziyorsun;çiziyorum;çiziyor','Sen → çiziyor-<b>SUN</b>'),
+  F('🧍‍♀️⚽','O top ___.','oynuyor;oynuyorum;oynuyorsun','O → oynuyor (ek almaz)'),
+  F('🙋👫🛝','Biz parka ___.','gittik;gitti;gittim','Biz → gitti-<b>K</b>'),
+  F('👯🎤','Onlar şarkı ___.','söylüyorlar;söylüyorum;söylüyoruz','Onlar → söylüyor-<b>LAR</b>'),
+  F('🙋🏠','___ eve geldim.','Ben;Sen;Onlar','geldi-<b>M</b> → Ben'),
+  F('🙋👫📚','___ kitap okuyoruz.','Biz;Ben;O','okuyor-<b>UZ</b> → Biz'),
+  F('👉🏃','___ çok hızlı koşuyorsun.','Sen;Ben;Biz','koşuyor-<b>SUN</b> → Sen'),
+  F('🙋🍎','Ben elma ___.','yedim;yedi;yedik','Ben → yedi-<b>M</b>'),
+  F('🙋⚽','Ben futbol ___.','oynuyorum;oynuyorsun;oynuyorlar','Ben → oynuyor-<b>UM</b>'),
+  F('👉📖','Sen kitap ___.','okuyorsun;okuyorum;okuyoruz','Sen → okuyor-<b>SUN</b>'),
+  F('👦🚲','O bisiklete ___.','bindi;bindim;bindik','O → bindi (ek almaz)'),
+  F('🙋👫🎂','Biz pasta ___.','yaptık;yaptı;yaptım','Biz → yaptı-<b>K</b>'),
+  F('🙋🏊','___ havuzda yüzdüm.','Ben;Sen;Onlar','yüzdü-<b>M</b> → Ben')
+],
+4:[
+  F('👉👨‍👩‍👧🍽️','Siz ne ___?','yiyorsunuz;yiyoruz;yiyor','Siz → yiyor-<b>SUNUZ</b>'),
+  F('👦🏫😊','Ali okula gitti. ___ çok mutlu.','O;Ben;Biz','Ali yerine → <b>O</b>'),
+  F('👧👦','Ayşe ve Can oynuyor. ___ arkadaş.','Onlar;O;Sen','Ayşe ve Can (iki kişi) → <b>Onlar</b>'),
+  F('🐱🍽️','Kedi acıktı. ___ mama istiyor.','O;Onlar;Biz','Kedi (bir tane) → <b>O</b>'),
+  F('👉👥📝','Siz ödevinizi ___ mı?','yaptınız;yaptık;yaptı','Siz → yaptı-<b>NIZ</b>'),
+  F('👨‍👩‍👦🚗','Onlar tatile ___.','gittiler;gittik;gittim','Onlar → gitti-<b>LER</b>'),
+  F('👉👥🎉','___ partiye geliyorsunuz.','Siz;Sen;Biz','geliyor-<b>SUNUZ</b> → Siz'),
+  F('🐦🐦🐦','Kuşlar uçtu. ___ çok hızlı.','Onlar;O;Ben','Kuşlar (çok) → <b>Onlar</b>'),
+  F('🙋👩🛒','Annem ve ben pazara gittik. ___ meyve aldık.','Biz;Onlar;Siz','Annem ve ben → <b>Biz</b>'),
+  F('👉👦🏫','Sen ve Ali sınıfa girdiniz. ___ geç kaldınız.','Siz;Onlar;Biz','Sen ve Ali → <b>Siz</b>'),
+  F('👴🌳','Dedem bahçede. ___ ağaçları suluyor.','O;Onlar;Sen','Dedem (bir kişi) → <b>O</b>')
+],
+5:[
+  F('🏔️','Biz bu yaz Erzurum’a ___.','gideceğiz;gidecekler;gideceksin','Biz → gideceğ-<b>İZ</b>'),
+  F('📕','Siz bu kitabı daha önce ___?','okudunuz mu;okuduk mu;okudular mı','Siz → okudu-<b>NUZ</b>'),
+  F('📝','Onlar sınavdan önce çok ___.','çalıştılar;çalıştık;çalıştın','Onlar → çalıştı-<b>LAR</b>'),
+  F('💬','Ben bu konuyu sana sonra ___.','anlatacağım;anlatacaksın;anlatacaklar','Ben → anlatacağ-<b>IM</b>'),
+  F('⏰','Sen her sabah erken ___.','kalkarsın;kalkarım;kalkarız','Sen → kalkar-<b>SIN</b>'),
+  F('📋','___ ödevlerimizi zamanında teslim ettik.','Biz;Siz;Onlar','ödevleri-<b>MİZ</b>, etti-<b>K</b> → Biz'),
+  F('🏛️','___ yarın müzeye gidecekler.','Onlar;Biz;Sen','gidecek-<b>LER</b> → Onlar'),
+  F('🎨','___ bu resmi kendin mi yaptın?','Sen;Ben;O','kendi-<b>N</b>, yaptı-<b>N</b> → Sen'),
+  F('🏆','Ayşe ile Elif yarışmaya katıldı. ___ çok heyecanlıydı.','Onlar;O;Siz','Ayşe ile Elif → <b>Onlar</b>'),
+  F('🥕','Annemle ben pazara gittik. ___ taze sebze aldık.','Biz;Onlar;Siz','Annemle ben → <b>Biz</b>')
+],
+6:[
+  MP('Herkes bu soruyu çözebilir.','Herkes','Belgisiz zamir','Kimin olduğu belli değil → belgisiz zamir'),
+  MP('Bunu kim getirdi?','Bunu','İşaret zamiri','Bir varlığı göstererek yerini tutar → işaret zamiri'),
+  MP('Kim kapıyı çaldı?','Kim','Soru zamiri','Bir varlığı soru yoluyla sorar → soru zamiri'),
+  MP('Ödevimi kendim yaptım.','kendim','Dönüşlülük zamiri','"kendi" kelimesi → dönüşlülük zamiri'),
+  MP('Onlar maçı izlemeye gitti.','Onlar','Kişi zamiri','Ben, sen, o, biz, siz, onlar → kişi zamiri'),
+  MP('Bazıları teneffüste sınıfta kaldı.','Bazıları','Belgisiz zamir','Kimler olduğu belli değil → belgisiz zamir'),
+  MP('Şunlar benim kitaplarım.','Şunlar','İşaret zamiri','Bu, şu, o, bunlar, şunlar → işaret zamiri'),
+  MP('Hangisini seçtin?','Hangisini','Soru zamiri','Hangisi, kim, ne → soru zamiri'),
+  MP('Kimse bu sırrı bilmiyor.','Kimse','Belgisiz zamir','Kimse, herkes, biri, hepsi → belgisiz zamir'),
+  MP('Bu sorunu kendin çözmelisin.','kendin','Dönüşlülük zamiri','kendi-N → dönüşlülük zamiri'),
+  M('Bu kitabı çok sevdim.','Bu',ZS,'Sıfat;Zamir','İsmin önünde (bu kitap) onu gösteriyor → sıfat'),
+  M('Bunu çok sevdim.','Bunu',ZS,'Zamir;Sıfat','İsmin yerini tutuyor → zamir'),
+  M('Hangi kitabı aldın?','Hangi',ZS,'Sıfat;Zamir','İsimden önce geliyor (hangi kitap) → sıfat'),
+  M('Hangisini aldın?','Hangisini',ZS,'Zamir;Sıfat','İsmin yerini tutuyor → zamir'),
+  M('Bazı öğrenciler geç geldi.','Bazı',ZS,'Sıfat;Zamir','İsmin önünde (bazı öğrenciler) → sıfat'),
+  M('Bazıları geç geldi.','Bazıları',ZS,'Zamir;Sıfat','İsmin yerini tutuyor → zamir'),
+  M('O çocuk çok çalışkan.','O',ZS,'Sıfat;Zamir','İsmin önünde (o çocuk) → sıfat'),
+  M('O, sınıfın en çalışkan öğrencisi.','O',ZS,'Zamir;Sıfat','Bir kişinin yerini tutuyor → zamir')
+]};
+
+// Tekil · Çoğul. 3. ve 4. sınıfta resimli sorular da otomatik üretilir (NOUNS listesi).
+const NOUNS = [
+  ['kedi','kediler','🐱'],['elma','elmalar','🍎'],['kuş','kuşlar','🐦'],['top','toplar','⚽'],
+  ['çiçek','çiçekler','🌸'],['araba','arabalar','🚗'],['balık','balıklar','🐟'],['kitap','kitaplar','📘'],
+  ['yıldız','yıldızlar','⭐'],['ağaç','ağaçlar','🌳'],['köpek','köpekler','🐶'],['ev','evler','🏠'],
+  ['kalem','kalemler','✏️'],['muz','muzlar','🍌'],['tavşan','tavşanlar','🐰'],['balon','balonlar','🎈'],
+  ['kurbağa','kurbağalar','🐸'],['şapka','şapkalar','🎩'],['kalp','kalpler','❤️'],['mantar','mantarlar','🍄'],
+  ['saat','saatler','⏰'],['uçak','uçaklar','✈️'],['çilek','çilekler','🍓'],['ördek','ördekler','🦆'],
+  ['gemi','gemiler','🚢'],['arı','arılar','🐝'],['inek','inekler','🐄'],['fil','filler','🐘'],
+  ['bulut','bulutlar','☁️'],['hediye','hediyeler','🎁'],['portakal','portakallar','🍊'],['karpuz','karpuzlar','🍉'],
+  ['bisiklet','bisikletler','🚲'],['kelebek','kelebekler','🦋'],['penguen','penguenler','🐧'],['kurabiye','kurabiyeler','🍪']
+];
+const NUMW = {2:'iki',3:'üç',4:'dört',5:'beş'};
+const LQ='-ler eki bu kelimeye hangi anlamı katmıştır?';
+const PLUR = {
+4:[
+  F('🧑‍🎓','Sınıfımızda yirmi dört ___ var.','öğrenci;öğrenciler','Sayıdan sonra isim çoğul olmaz: <b>yirmi dört öğrenci</b>'),
+  F('🏫','Bütün ___ bahçede toplandı.','öğrenciler;öğrenci','<b>bütün</b> kelimesinden sonra isim çoğul olur.'),
+  F('📒','Her ___ kendi defterini getirsin.','öğrenci;öğrenciler','<b>her</b> kelimesinden sonra isim tekil olur.'),
+  F('📚','Kütüphaneden kaç ___ aldın?','kitap;kitaplar','<b>kaç</b> sorusundan sonra isim tekil olur.'),
+  F('🍎','Pazardan birkaç ___ aldık.','elma;elmalar','<b>birkaç</b> kelimesinden sonra isim tekil kalır.'),
+  F('🎁','Doğum günümde iki ___ aldım.','hediye;hediyeler','Sayıdan sonra isim tekil kalır: <b>iki hediye</b>'),
+  F('👟','Tüm ___ kapının önüne çıkarın.','ayakkabıları;ayakkabıyı','<b>tüm</b> kelimesinden sonra isim çoğul olur.')
+],
+5:[
+  F('🎬','Birçok ___ bu filmi beğendi.','kişi;kişiler','<b>birçok</b> kelimesinden sonra isim tekil kalır.'),
+  F('🚌','Bazı ___ geziye katılmadı.','çocuklar;çocuk','<b>bazı</b> kelimesinden sonra isim çoğul olur.'),
+  F('📝','Pek çok ___ yarışmaya başvurdu.','öğrenci;öğrenciler','<b>pek çok</b> kelimesinden sonra isim tekil kalır.'),
+  F('🍂','Sonbaharda ağaçların yaprakları ___.','sarardı;sarardılar','Özne cansız varlıksa yüklem çoğul olmaz.'),
+  F('🚗','Sabah trafikte arabalar uzun süre ___.','bekledi;beklediler','Özne cansız varlıksa yüklem tekil kalır.'),
+  F('🌸','Bahar gelince çiçekler ___.','açtı;açtılar','Bitkiler cansız sayılır; yüklem tekil kalır.')
+],
+6:[
+  M('Bu akşam teyzemlere gideceğiz.','teyzemlere',LQ,'Aile / ev;Birden fazla;Saygı','teyzemler = teyzemin ailesi, evi','🏠'),
+  M('Bayramda dedemlere gittik.','dedemlere',LQ,'Aile / ev;Birden fazla;Her','dedemler = dedemin ailesi, evi','👨‍👩‍👧'),
+  M('Müdür Bey az önce sınıftan çıktılar.','çıktılar',LQ,'Saygı;Birden fazla;Aile / ev','Tek kişi için kullanılan -ler → saygı','🎩'),
+  M('Pazarları ailemle kahvaltı yaparız.','Pazarları',LQ,'Her;Birden fazla;Saygı','pazarları = her pazar','📅'),
+  M('Kitaplar masanın üstünde duruyor.','Kitaplar',LQ,'Birden fazla;Saygı;Her','-ler → çokluk (birden fazla kitap)','📚')
+]};
+
+// Fiil zamanları. t: 0=geçmiş 1=şimdi 2=gelecek 3=her zaman (geniş)
+const TENSES=['Görülen geçmiş zaman','Öğrenilen geçmiş zaman','Şimdiki zaman','Gelecek zaman','Geniş zaman'];
+const TQ='İşaretli fiil hangi zamanda?';
+const MT=(t,s,u,a,n)=>({t,s,u,q:TQ,o:pick(a,TENSES),n});
+const TIME = {
+3:[
+  F('🛝','Dün parka ___.','gittim;gideceğim;gidiyorum','Dün → git-<b>TİM</b>',0),
+  F('👵','Yarın babaanneme ___.','gideceğim;gittim;gidiyorum','Yarın → gid-<b>ECEĞİM</b>',2),
+  F('🎨','Şimdi resim ___.','yapıyorum;yaptım;yapacağım','Şimdi → yap-<b>IYORUM</b>',1),
+  F('🍕','Dün akşam pizza ___.','yedik;yiyeceğiz;yiyoruz','Dün → ye-<b>DİK</b>',0),
+  F('👶💤','Bebek şu an ___.','uyuyor;uyudu;uyuyacak','Şu an → uyu-<b>YOR</b>',1),
+  F('❄️⛄','Dün kar ___.','yağdı;yağacak;yağıyor','Dün → yağ-<b>DI</b>',0),
+  F('🏖️','Yarın denize ___.','gireceğiz;girdik;giriyoruz','Yarın → gir-<b>ECEĞİZ</b>',2),
+  F('🎬','___ sinemaya gittik.','Dün;Yarın','gitti-K geçmiş → <b>Dün</b>',0),
+  F('🎂','___ doğum günüm olacak.','Yarın;Dün','ola-CAK gelecek → <b>Yarın</b>',2),
+  F('🌧️','Şu an yağmur ___.','yağıyor;yağdı;yağacak','Şu an → yağ-<b>IYOR</b>',1),
+  F('🍽️','___ yemek yiyorum.','Şimdi;Dün;Yarın','yi-YORUM → <b>Şimdi</b>',1),
+  F('🧁','Yarın kek ___.','yapacağız;yaptık;yapıyoruz','Yarın → yap-<b>ACAĞIZ</b>',2)
+],
+4:[
+  F('⏰','Annem her sabah erkenden ___.','kalkar;kalkacak;kalktı','Her sabah, alışkanlık → <b>geniş zaman</b>: kalk-AR',3),
+  F('☀️','Güneş doğudan ___.','doğar;doğdu;doğacak','Her zaman doğru → <b>geniş zaman</b>: doğ-AR',3),
+  F('💧','Su yüz derecede ___.','kaynar;kaynadı;kaynayacak','Bilimsel gerçek → <b>geniş zaman</b>: kayna-R',3),
+  F('🐱','Kedim her gün pencerenin önünde ___.','uyur;uyudu;uyuyacak','Her gün → <b>geniş zaman</b>: uyu-R',3),
+  F('🐝','Arılar çiçeklerden bal ___.','yapar;yaptı;yapacak','Her zaman → <b>geniş zaman</b>: yap-AR',3),
+  F('🏛️','Geçen hafta sonu müzeyi ___.','gezdik;gezeceğiz;gezeriz','Geçen hafta → gez-<b>DİK</b>',0),
+  F('🚗','Yarın sabah erkenden yola ___.','çıkacağız;çıktık;çıkıyoruz','Yarın → çık-<b>ACAĞIZ</b>',2),
+  F('👶','Bak, bebek şimdi ___!','gülüyor;güldü;gülecek','Şimdi → gül-<b>ÜYOR</b>',1)
+],
+5:[
+  F('🏥','Duyduğuma göre Ali dün hastaneye ___.','gitmiş;gidecek;gidiyor','Başkasından duyduk → <b>öğrenilen geçmiş</b>: git-MİŞ',0),
+  F('❄️','Sabah perdeyi açtım, gece kar ___!','yağmış;yağacak;yağar','Sonradan fark ettik → <b>öğrenilen geçmiş</b>: yağ-MIŞ',0),
+  F('📰','Haberlere göre deprem gece yarısı ___.','olmuş;olacak;oluyor','Haberden öğrendik → <b>öğrenilen geçmiş</b>: ol-MUŞ',0),
+  F('📋','Ayşe ödevini çoktan ___, haberin yok mu?','bitirmiş;bitirecek;bitiriyor','Biz görmeden olmuş → <b>öğrenilen geçmiş</b>: bitir-MİŞ',0),
+  F('📖','Şu anda sınıfta Türkçe dersi ___.','işliyoruz;işledik;işleyeceğiz','Şu anda → <b>şimdiki zaman</b>: işl-İYORUZ',1),
+  F('🎒','Gelecek yıl bir üst sınıfa ___.','geçeceğim;geçtim;geçiyordum','Gelecek yıl → <b>gelecek zaman</b>: geç-ECEĞİM',2),
+  F('🎓','Ağabeyim önümüzdeki ay üniversiteden ___.','mezun olacak;mezun oldu;mezun oluyordu','Önümüzdeki ay → <b>gelecek zaman</b>',2),
+  F('📚','Şimdi kitabımı ___, lütfen beni rahatsız etme.','okuyorum;okudum;okuyacağım','Şimdi → <b>şimdiki zaman</b>: oku-YORUM',1),
+  F('📝','Dün akşam ödevimi ___.','bitirdim;bitireceğim;bitiriyorum','Dün → <b>görülen geçmiş</b>: bitir-DİM',0)
+],
+6:[
+  MT(0,'Kardeşim bütün pastayı yemiş.','yemiş','Öğrenilen geçmiş zaman','-mış / -miş: olayı görmedik, sonradan öğrendik.'),
+  MT(2,'Yarın okulda tören yapılacak.','yapılacak','Gelecek zaman','-acak / -ecek → gelecek zaman'),
+  MT(3,'Arılar çiçeklerden bal yapar.','yapar','Geniş zaman','-r / -ar / -er → geniş zaman'),
+  MT(0,'Öğretmen sınav kâğıtlarını dağıttı.','dağıttı','Görülen geçmiş zaman','-dı / -tı → görülen geçmiş zaman'),
+  MT(1,'Şu an rüzgâr çok sert esiyor.','esiyor','Şimdiki zaman','-yor → şimdiki zaman'),
+  MT(0,'Okulumuz ilçe birincisi olmuş.','olmuş','Öğrenilen geçmiş zaman','-muş → öğrenilen geçmiş zaman'),
+  MT(3,'Kuşlar kışın sıcak ülkelere göç eder.','göç eder','Geniş zaman','-er → geniş zaman'),
+  MT(2,'Akşam yemeğinde balık yiyeceğiz.','yiyeceğiz','Gelecek zaman','-ecek → gelecek zaman'),
+  MT(0,'Dün çok güzel bir film izledik.','izledik','Görülen geçmiş zaman','-di → görülen geçmiş zaman'),
+  MT(1,'Kardeşim odasında müzik dinliyor.','dinliyor','Şimdiki zaman','-yor → şimdiki zaman')
+]};
+
+// Kelime türleri. Seçenekler sınıfa göre otomatik gelir:
+// 3. sınıf: isim, sıfat, fiil · 4. sınıf: + zamir · 5–6. sınıf: + zarf
+const WTYPES={3:['İsim','Sıfat','Fiil'],4:['İsim','Sıfat','Fiil','Zamir'],5:['İsim','Sıfat','Zamir','Fiil','Zarf'],6:['İsim','Sıfat','Zamir','Fiil','Zarf']};
+const T=(s,u,a,n)=>({s,u,a,n,q:'İşaretli kelimenin türü nedir?'});
+const TUR = {
+3:[
+  T('Kırmızı top çok güzel.','Kırmızı','Sıfat','İsmi (top) niteliyor → sıfat'),
+  T('Kedi bahçede uyuyor.','Kedi','İsim','Bir varlığın adı → isim'),
+  T('Kedi bahçede uyuyor.','uyuyor','Fiil','Bir iş bildiriyor → fiil'),
+  T('Büyük bir ev aldık.','Büyük','Sıfat','İsmi (ev) niteliyor → sıfat'),
+  T('Ali topu attı.','attı','Fiil','Bir iş bildiriyor → fiil'),
+  T('Ankara güzel bir şehir.','Ankara','İsim','Bir şehrin adı → özel isim'),
+  T('Sıcak çorba içtik.','Sıcak','Sıfat','İsmi (çorba) niteliyor → sıfat'),
+  T('Kuşlar gökyüzünde uçuyor.','uçuyor','Fiil','Bir hareket bildiriyor → fiil'),
+  T('Masada bir elma var.','elma','İsim','Bir varlığın adı → isim'),
+  T('Küçük kedi süt içti.','Küçük','Sıfat','İsmi (kedi) niteliyor → sıfat'),
+  T('Ayşe okula koştu.','koştu','Fiil','Bir hareket bildiriyor → fiil'),
+  T('Annem bana kitap aldı.','kitap','İsim','Bir varlığın adı → isim')
+],
+4:[
+  T('Biz parka gittik.','Biz','Zamir','Kişilerin yerini tutuyor → zamir'),
+  T('Onlar çok çalışkan.','Onlar','Zamir','Kişilerin yerini tutuyor → zamir'),
+  T('Ben resim çizdim.','Ben','Zamir','Kişinin yerini tutuyor → zamir'),
+  T('Bu kalem senin mi?','senin','Zamir','Kişi zamiri (sen) → zamir'),
+  T('Yeşil elbiseyi beğendim.','Yeşil','Sıfat','İsmi (elbise) niteliyor → sıfat'),
+  T('Çocuklar bahçede oynuyor.','oynuyor','Fiil','Bir hareket bildiriyor → fiil'),
+  T('Sevgi her şeyi güzelleştirir.','Sevgi','İsim','Bir duygunun adı → soyut isim'),
+  T('Kırtasiyeden üç kalem aldım.','üç','Sıfat','İsmin sayısını bildiriyor → sayı sıfatı'),
+  T('Herkes yerine otursun.','Herkes','Zamir','İsmin yerini tutuyor → zamir')
+],
+5:[
+  T('Kaplumbağa yavaş yürüyor.','yavaş','Zarf','Fiilin nasıl yapıldığını anlatıyor → zarf'),
+  T('Yarın erken kalkacağım.','erken','Zarf','Fiilin ne zaman yapılacağını anlatıyor → zarf'),
+  T('Kitabı dikkatle okudu.','dikkatle','Zarf','Fiilin nasıl yapıldığını anlatıyor → zarf'),
+  T('Ali biraz önce içeri girdi.','içeri','Zarf','Fiilin yönünü bildiriyor → zarf'),
+  T('Öğrenciler sessizce sınıfa girdi.','sessizce','Zarf','Fiilin nasıl yapıldığını anlatıyor → zarf'),
+  T('Kuşlar gökyüzünde özgürce uçuyor.','özgürce','Zarf','Fiilin nasıl yapıldığını anlatıyor → zarf'),
+  T('Annem bana sıcak bir çorba yaptı.','sıcak','Sıfat','İsmi (çorba) niteliyor → sıfat'),
+  T('Bunlar benim defterlerim.','Bunlar','Zamir','İsimlerin yerini tutuyor → zamir'),
+  T('Ağaçtaki elmalar olgunlaştı.','elmalar','İsim','Bir varlığın adı → isim')
+],
+6:[
+  T('Kırmızı en sevdiğim renktir.','Kırmızı','İsim','Bir rengin adı olarak kullanılmış → isim'),
+  T('Yavaş araçlar sağ şeritten gitsin.','Yavaş','Sıfat','İsmi (araçlar) niteliyor → sıfat'),
+  T('Yarın erken kalkacağım.','kalkacağım','Fiil','İş bildiriyor ve zaman eki almış → fiil'),
+  T('O, sınıfın en çalışkan öğrencisidir.','çalışkan','Sıfat','İsmi (öğrenci) niteliyor → sıfat'),
+  T('Bu soruyu çözdün mü?','çözdün','Fiil','İş bildiriyor → fiil'),
+  T('Uzun bir yolculuk yaptık.','Uzun','Sıfat','İsmi (yolculuk) niteliyor → sıfat'),
+  T('Mutluluk paylaştıkça çoğalır.','çoğalır','Fiil','Bir oluş bildiriyor → fiil'),
+  T('Kardeşim her gün süt içer.','süt','İsim','Bir varlığın adı → isim'),
+  T('Yarın bizim için önemli bir gün.','Yarın','İsim','Bir günün adı olarak kullanılmış → isim'),
+  T('Yarın sinemaya gideceğiz.','Yarın','Zarf','Fiilin zamanını bildiriyor → zarf'),
+  T('Güzel konuşmak bir sanattır.','Güzel','Zarf','Fiili (konuşmak) niteliyor → zarf'),
+  T('Güzel bir gün geçirdik.','Güzel','Sıfat','İsmi (gün) niteliyor → sıfat')
+]};
+
+// Hâl ekleri: -i (belirtme) -e (yönelme) -de (bulunma) -den (ayrılma) -in (ilgi)
+const EK = {
+3:[
+  F('🏫','Ahmet her sabah ___ gider.','okula;okulda;okuldan','Nereye? → <b>-e</b>: okula'),
+  F('📚','Kitaplar ___ duruyor.','masada;masaya;masadan','Nerede? → <b>-de</b>: masada'),
+  F('🛒','Annem ___ yeni geldi.','pazardan;pazara;pazarda','Nereden? → <b>-den</b>: pazardan'),
+  F('🎒','Kalemimi ___ koydum.','çantaya;çantada;çantadan','Nereye? → <b>-e</b>: çantaya'),
+  F('🐟','Balıklar ___ yaşar.','denizde;denize;denizden','Nerede? → <b>-de</b>: denizde'),
+  F('🏠','Babam akşam ___ döndü.','işten;işe;işte','Nereden? → <b>-den</b>: işten'),
+  F('🛝','Çocuklar ___ oynuyor.','parkta;parka;parktan','Nerede? → <b>-ta</b>: parkta'),
+  F('🐦','Kuş ___ uçup gitti.','ağaçtan;ağaca;ağaçta','Nereden? → <b>-tan</b>: ağaçtan')
+],
+4:[
+  F('🚪','Rüzgâr çıkınca ___ kapattım.','kapıyı;kapıya;kapıda','Neyi? → <b>-i hâli</b> (belirtme)'),
+  F('🎁','Doğum gününde ___ hediye aldım.','kardeşime;kardeşimi;kardeşimde','Kime? → <b>-e hâli</b> (yönelme)'),
+  F('🚆','Tren saat dokuzda ___ hareket etti.','istasyondan;istasyona;istasyonu','Nereden? → <b>-den hâli</b>'),
+  F('✅','Öğretmen ___ kontrol etti.','ödevleri;ödevlere;ödevlerde','Neyi? → <b>-i hâli</b> (belirtme)'),
+  F('📖','Yarın ___ buluşalım mı?','kütüphanede;kütüphaneye;kütüphaneyi','Nerede? → <b>-de hâli</b>'),
+  F('🪟','Hava çok sıcak, ___ açar mısın?','pencereyi;pencereye;pencerede','Neyi? → <b>-i hâli</b>'),
+  F('⚽','Çocuklar ___ top oynuyor.','sokakta;sokağa;sokağı','Nerede? → <b>sokakta</b>')
+],
+5:[
+  F('🏙️','Dedem yıllar önce ___ şehre taşındı.','köyden;köye;köyde','Nereden? → <b>-den hâli</b>'),
+  F('✉️','Tatildeki ___ uzun bir mektup yazdım.','arkadaşıma;arkadaşımı;arkadaşımda','Kime? → <b>-e hâli</b>'),
+  F('🧒','Teneffüste ___ aradım ama bulamadım.','seni;sana;sende','Kimi? → <b>-i hâli</b>: seni'),
+  F('🐱','Kedi korkunca ___ tırmandı.','ağaca;ağaçta;ağacı','Nereye? → ağaç + a = <b>ağaca</b> (ç → c olur)'),
+  F('🏫','Zil çalınca ___ kimse kalmadı.','sınıfta;sınıfa;sınıfı','Nerede? → sınıf + ta = <b>sınıfta</b>'),
+  F('🍂','Sonbaharda ___ yapraklar döküldü.','ağaçtan;ağaca;ağacı','Nereden? → ağaç + tan = <b>ağaçtan</b>')
+],
+6:[
+  F('❓','Bu ___ cevabını bilmiyorum.','sorunun;soruya;soruda','Neyin cevabı? → <b>-in eki</b> (ilgi)'),
+  F('📕','Bu ___ bazı sayfaları yırtılmış.','kitabın;kitaba;kitapta','Neyin sayfaları? → kitap + ın = <b>kitabın</b> (p → b olur)'),
+  F('🍰','Bu pastayı ___ yaptım.','senin için;seni için;sende için','"için" zamirlerde ilgi ekiyle kullanılır: <b>senin için</b>'),
+  F('🏠','___ bahçesinde büyük bir ağaç var.','Evimizin;Evimize;Evimizde','Neyin bahçesi? → <b>-in eki</b> (ilgi)'),
+  F('🚗','___ rengi kırmızı.','Arabanın;Arabaya;Arabada','Neyin rengi? → <b>-nın eki</b> (ilgi)')
+]};
+
+// Kelime anlamı: eş anlam, zıt anlam, eş sesli, gerçek-mecaz, deyim, atasözü
+const ZQ=w=>`“${w}” kelimesinin zıt anlamlısı hangisi?`, EQ=w=>`“${w}” kelimesinin eş anlamlısı hangisi?`;
+const ZT=(w,o,p)=>M(w,w,ZQ(w),o,`${w} ↔ <b>${o.split(';')[0]}</b>`,p);
+const ES=(w,o,p)=>M(w,w,EQ(w),o,`${w} = <b>${o.split(';')[0]}</b>`,p);
+const GM='İşaretli kelime gerçek anlamda mı, mecaz anlamda mı?', DQ='Bu deyim ne anlama gelir?', AQ='Bu atasözü ne anlatır?';
+const ANLAM = {
+3:[
+  ZT('büyük','küçük;uzun;yeni','🐘🐭'), ZT('sıcak','soğuk;ılık;güzel','☀️❄️'), ZT('açık','kapalı;geniş;temiz','🚪'),
+  ZT('hızlı','yavaş;çabuk;güçlü','🐇🐢'), ZT('uzun','kısa;ince;büyük','📏'), ZT('gece','gündüz;akşam;sabah','🌙☀️'),
+  ZT('mutlu','üzgün;neşeli;yorgun','😊😢'), ZT('dolu','boş;ağır;temiz','🥛'),
+  ES('okul','mektep;sınıf;ders','🏫'), ES('cevap','yanıt;soru;sayfa','💬'), ES('hediye','armağan;paket;kutu','🎁'),
+  ES('kırmızı','al;pembe;mor','🟥'), ES('siyah','kara;koyu;gri','⬛'), ES('öğrenci','talebe;öğretmen;okul','🧑‍🎓')
+],
+4:[
+  ES('ihtiyar','yaşlı;genç;hasta','👴'), ES('misafir','konuk;komşu;arkadaş','🚪'), ES('kelime','sözcük;cümle;harf','🔤'),
+  ES('doktor','hekim;hemşire;hasta','🩺'), ZT('kolay','zor;basit;hızlı','🧩'), ZT('erken','geç;sabah;önce','⏰'),
+  ZT('ağır','hafif;büyük;yavaş','🏋️'), ZT('cesur','korkak;güçlü;akıllı','🦁'),
+  M('Yüzünü yıkadıktan sonra kahvaltıya geldi.','Yüzünü','“yüz” bu cümlede hangi anlamda?','Surat;Sayı (100);Suda yüzmek','Eş sesli kelime: burada <b>surat</b> anlamında.','🧼'),
+  M('Kumbaramda yüz lira var.','yüz','“yüz” bu cümlede hangi anlamda?','Sayı (100);Surat;Suda yüzmek','Eş sesli kelime: burada <b>sayı</b> anlamında.','🐷'),
+  M('Çocuklar denizde yüzüyor.','yüzüyor','“yüz” bu cümlede hangi anlamda?','Suda yüzmek;Surat;Sayı (100)','Eş sesli kelime: burada <b>yüzmek</b> anlamında.','🏊'),
+  M('Kahvaltıda bir bardak çay içtim.','çay','“çay” bu cümlede hangi anlamda?','Sıcak içecek;Küçük akarsu','Eş sesli kelime: burada <b>içecek</b>.','🍵'),
+  M('Dedemle çayın kenarında balık tuttuk.','çayın','“çay” bu cümlede hangi anlamda?','Küçük akarsu;Sıcak içecek','Eş sesli kelime: burada <b>küçük akarsu</b>.','🎣'),
+  M('Gökyüzünde kocaman bir ay vardı.','ay','“ay” bu cümlede hangi anlamda?','Gök cismi;Takvim ayı','Eş sesli kelime: burada <b>gökteki Ay</b>.','🌕'),
+  M('Bu ay okulda gezi var.','ay','“ay” bu cümlede hangi anlamda?','Takvim ayı;Gök cismi','Eş sesli kelime: burada <b>takvim ayı</b>.','📅')
+],
+5:[
+  M('Annem sıcak bir çorba yaptı.','sıcak',GM,'Gerçek anlam;Mecaz anlam','Çorbanın ısısı → <b>gerçek anlam</b>','🍲'),
+  M('Komşumuz bizi çok sıcak karşıladı.','sıcak',GM,'Mecaz anlam;Gerçek anlam','Isı değil, samimiyet → <b>mecaz anlam</b>','🤗'),
+  M('Kayalar çok sert ve ağırdı.','sert',GM,'Gerçek anlam;Mecaz anlam','Dokunulunca sert → <b>gerçek anlam</b>','🪨'),
+  M('Babam bana sert bir sesle konuştu.','sert',GM,'Mecaz anlam;Gerçek anlam','Kızgın, kırıcı → <b>mecaz anlam</b>','😠'),
+  M('Ağır çantayı zor taşıdım.','Ağır',GM,'Gerçek anlam;Mecaz anlam','Kilosu fazla → <b>gerçek anlam</b>','🎒'),
+  M('Bu sözler bana çok ağır geldi.','ağır',GM,'Mecaz anlam;Gerçek anlam','Üzücü, kırıcı → <b>mecaz anlam</b>','💬'),
+  M('Sınavı kazanınca ağzı kulaklarına vardı.','ağzı kulaklarına vardı',DQ,'Çok sevindi;Çok kızdı;Çok yoruldu','<b>Ağzı kulaklarına varmak</b>: çok sevinmek','😁'),
+  M('Kardeşim yemeği görünce ağzı sulandı.','ağzı sulandı',DQ,'Çok canı istedi;Hastalandı;Su içti','<b>Ağzı sulanmak</b>: bir şeyi çok istemek','🤤'),
+  M('Öğretmenin uyarısını kulak arkası etme.','kulak arkası etme',DQ,'Önemsemezlik etme;Kulağını yıka;Yüksek sesle söyle','<b>Kulak arkası etmek</b>: önemsememek','👂')
+],
+6:[
+  M('Haberi duyunca küplere bindi.','küplere bindi',DQ,'Çok öfkelendi;Çok sevindi;Çok korktu','<b>Küplere binmek</b>: çok öfkelenmek','😡'),
+  M('Ali, ödevi bitirmek için kolları sıvadı.','kolları sıvadı',DQ,'İşe başladı;Üşüdü;Yoruldu','<b>Kolları sıvamak</b>: bir işe girişmek','💪'),
+  M('Sonucu öğrenene kadar diken üstünde oturdum.','diken üstünde oturdum',DQ,'Heyecanla ve tedirgin bekledim;Rahatça oturdum;Bahçede oturdum','<b>Diken üstünde oturmak</b>: tedirgin olmak','🌵'),
+  M('Arkadaşım beni yarı yolda bırakmadı.','yarı yolda bırakmadı',DQ,'Zor anda yalnız bırakmadı;Yolda bekletmedi;Arabayla getirdi','<b>Yarı yolda bırakmak</b>: zor anda yardımı kesmek','🤝'),
+  M('Öğretmeni can kulağıyla dinledik.','can kulağıyla dinledik',DQ,'Çok dikkatle dinledik;Yarım dinledik;Kulağımız ağrıdı','<b>Can kulağıyla dinlemek</b>: çok dikkatle dinlemek','👂'),
+  M('Yalancının mumu yatsıya kadar yanar.','Yalancının mumu yatsıya kadar yanar.',AQ,'Yalan çabuk ortaya çıkar;Mum gece boyunca yanar;Yalancı geç uyur','Yalan uzun süre saklanamaz.','🕯️'),
+  M('Damlaya damlaya göl olur.','Damlaya damlaya göl olur.',AQ,'Küçük birikimler zamanla büyür;Yağmur çok yağar;Göller damladan oluşur','Az az biriktirilen şey zamanla çoğalır.','💧'),
+  M('Sakla samanı, gelir zamanı.','Sakla samanı, gelir zamanı.',AQ,'Önemsiz görünen şey bir gün işe yarar;Saman çabuk bozulur;Zaman hızlı geçer','Hiçbir şeyi boş yere atma; bir gün gerekebilir.','🌾')
+]};
+
+// Okuduğunu anlama: her metin için birden çok soru (ilk seçenek doğru)
+const READ = {
+3:[
+  {p:'🐶', t:'Ali’nin bir köpeği var. Köpeğin adı Karabaş. Karabaş top oynamayı çok sever.',
+   qs:[['Köpeğin adı nedir?',['Karabaş','Pamuk','Boncuk']],['Karabaş ne yapmayı sever?',['Top oynamayı','Uyumayı','Yüzmeyi']],['Köpek kimin?',['Ali’nin','Ayşe’nin','Dedenin']]]},
+  {p:'🍎', t:'Zeynep pazara gitti. Pazardan üç elma ve iki armut aldı. Eve gelince meyveleri yıkadı.',
+   qs:[['Zeynep nereye gitti?',['Pazara','Okula','Parka']],['Kaç elma aldı?',['Üç','İki','Beş']],['Eve gelince ne yaptı?',['Meyveleri yıkadı','Uyudu','Ders çalıştı']]]},
+  {p:'☔', t:'Sabah yağmur yağıyordu. Can şemsiyesini aldı ve okula gitti. Okulda arkadaşlarıyla resim yaptı.',
+   qs:[['Sabah hava nasıldı?',['Yağmurlu','Güneşli','Karlı']],['Can yanına ne aldı?',['Şemsiyesini','Topunu','Kitabını']],['Can okulda ne yaptı?',['Resim yaptı','Futbol oynadı','Şarkı söyledi']]]},
+  {p:'🎂', t:'Bugün Elif’in doğum günü. Elif dokuz yaşına girdi. Annesi ona çilekli bir pasta yaptı.',
+   qs:[['Bugün kimin doğum günü?',['Elif’in','Annesinin','Ali’nin']],['Elif kaç yaşına girdi?',['Dokuz','Sekiz','On']],['Pasta nasıl bir pasta?',['Çilekli','Çikolatalı','Muzlu']]]},
+  {p:'🐦', t:'Kışın kuşlar yiyecek bulmakta zorlanır. Taha balkona kuşlar için ekmek kırıntısı koydu. Kısa sürede balkona serçeler geldi.',
+   qs:[['Taha balkona ne koydu?',['Ekmek kırıntısı','Su','Oyuncak']],['Balkona hangi kuşlar geldi?',['Serçeler','Martılar','Kartallar']],['Kuşlar kışın neden zorlanır?',['Yiyecek bulamadıkları için','Uçamadıkları için','Uyudukları için']]]}
+],
+4:[
+  {p:'🎣', t:'Ahmet Taha cumartesi sabahı erkenden kalktı. Kahvaltısını yaptıktan sonra babasıyla birlikte balık tutmaya gitti. Göl kenarında saatlerce beklediler ve üç balık yakaladılar.',
+   qs:[['Ahmet Taha kiminle balık tutmaya gitti?',['Babasıyla','Annesiyle','Arkadaşıyla']],['Balık tutmaya nereye gittiler?',['Göl kenarına','Deniz kıyısına','Nehir kenarına']],['Kaç balık yakaladılar?',['Üç','İki','Beş']],['Bu olay ne zaman oldu?',['Cumartesi sabahı','Pazar akşamı','Cuma öğleden sonra']]]},
+  {p:'🐈', t:'Zeynep’in kedisi Pamuk üç gündür ortada yoktu. Zeynep mahalledeki bütün apartmanlara ilan astı. Sonunda komşuları Pamuk’u bir bodrum katında buldu ve Zeynep’e getirdi.',
+   qs:[['Pamuk kimdir?',['Zeynep’in kedisi','Zeynep’in kardeşi','Zeynep’in köpeği']],['Pamuk kaç gündür kayıptı?',['Üç','Beş','Bir']],['Pamuk nerede bulundu?',['Bodrum katında','Çatıda','Parkta']],['Pamuk’u kim buldu?',['Komşuları','Zeynep','Öğretmeni']]]},
+  {p:'🚌', t:'Selin sabah otobüsü kaçırdı. Okula yürüyerek gitmek zorunda kaldı ve derse on dakika geç girdi. Öğretmeni, ertesi gün biraz daha erken kalkmasını söyledi.',
+   qs:[['Selin okula neden yürüyerek gitti?',['Otobüsü kaçırdığı için','Hava güzel olduğu için','Otobüs bozulduğu için']],['Selin derse kaç dakika geç kaldı?',['On','Beş','Yirmi']],['Öğretmeni Selin’e ne söyledi?',['Daha erken kalkmasını','Otobüse binmemesini','Ödevini getirmesini']]]}
+],
+5:[
+  {p:'🦻', t:'Murat işitme cihazını her sabah takar. Cihazı sayesinde derste öğretmenini daha iyi duyar. Akşamları ise cihazını şarj etmeyi hiç unutmaz.',
+   qs:[['Murat cihazını ne zaman takar?',['Her sabah','Her akşam','Sadece hafta sonu']],['Cihaz Murat’a nasıl yardım eder?',['Öğretmenini daha iyi duymasını sağlar','Daha hızlı koşmasını sağlar','Daha iyi görmesini sağlar']],['Murat akşamları cihazına ne yapar?',['Şarj eder','Yıkar','Arkadaşına verir']]]},
+  {p:'🐻', t:'Kışın soğuk günlerinde ayılar mağaralarına çekilir ve uzun bir uykuya dalar. Buna kış uykusu denir. Ayılar sonbaharda çok yemek yiyerek vücutlarında yağ biriktirir.',
+   qs:[['Ayılar kışın ne yapar?',['Kış uykusuna yatar','Güneye göç eder','Yuva yapar']],['Ayılar sonbaharda neden çok yemek yer?',['Yağ biriktirmek için','Oyun oynamak için','Yavrularını beslemek için']],['Ayılar kışın nerede kalır?',['Mağarada','Ağaçta','Gölde']]]},
+  {p:'🎂', t:'Ayşe ile kardeşi Ali, annelerine doğum günü sürprizi hazırladı. Ayşe çikolatalı bir pasta yaptı, Ali de salonu balonlarla süsledi. Anneleri eve geldiğinde çok şaşırdı ve gözleri doldu.',
+   qs:[['Sürpriz kimin için hazırlandı?',['Anneleri için','Babaları için','Öğretmenleri için']],['Pastayı kim yaptı?',['Ayşe','Ali','Anneleri']],['Ali ne yaptı?',['Salonu süsledi','Pasta yaptı','Hediye aldı']],['Annenin "gözlerinin dolması" neyi gösterir?',['Çok duygulandığını','Çok kızdığını','Gözünün ağrıdığını']]]},
+  {p:'🌱', t:'Can ile arkadaşları okul bahçesine ağaç dikmeye karar verdi. Okul müdürü onlara on iki fidan verdi. Çocuklar fidanları dikip her gün suladı. Bahar geldiğinde fidanlar yemyeşil oldu.',
+   qs:[['Fidanları çocuklara kim verdi?',['Okul müdürü','Can’ın babası','Bahçıvan']],['Kaç fidan dikildi?',['On iki','On','Yirmi']],['Fidanlar ne zaman yeşerdi?',['Baharda','Kışın','Sonbaharda']],['Çocuklar fidanlar için her gün ne yaptı?',['Suladı','Budadı','Ölçtü']]]}
+],
+6:[
+  {p:'🔬', t:'Elif’in en sevdiği ders fen bilimleridir. Geçen hafta okulda bir bilim şenliği yapıldı. Elif, bitkilerin güneş ışığına doğru nasıl büyüdüğünü gösteren bir deney hazırladı ve birinci oldu.',
+   qs:[['Elif’in en sevdiği ders hangisidir?',['Fen bilimleri','Matematik','Türkçe']],['Elif’in deneyi ne hakkındaydı?',['Bitkilerin büyümesi','Suyun kaynaması','Mıknatıslar']],['Elif şenlikte kaçıncı oldu?',['Birinci','İkinci','Üçüncü']]]},
+  {p:'🚢', t:'Dedem gençliğinde bir gemide aşçı olarak çalışmış. Gemiyle birçok ülke gezmiş. Bize en çok Japonya’da gördüğü kiraz çiçeklerini anlatır.',
+   qs:[['Dedem gemide hangi işi yapmış?',['Aşçılık','Kaptanlık','Doktorluk']],['Dedem en çok neyi anlatır?',['Kiraz çiçeklerini','Fırtınaları','Balinaları']],['Kiraz çiçeklerini hangi ülkede görmüş?',['Japonya’da','Çin’de','İtalya’da']]]},
+  {p:'🏞️', t:'Türkiye’nin içinden doğup yine Türkiye’de denize dökülen en uzun nehir Kızılırmak’tır. Kızılırmak, Sivas’tan doğar ve Karadeniz’e dökülür. Nehrin adı, taşıdığı kırmızı renkli topraktan gelir.',
+   qs:[['Metinde anlatılan nehrin adı nedir?',['Kızılırmak','Fırat','Sakarya']],['Kızılırmak hangi denize dökülür?',['Karadeniz’e','Akdeniz’e','Ege Denizi’ne']],['Nehrin adı nereden gelir?',['Kırmızı renkli topraktan','Kırmızı balıklardan','Kırmızı çiçeklerden']],['Kızılırmak hangi şehirden doğar?',['Sivas’tan','Ankara’dan','Kayseri’den']]]},
+  {p:'🧑‍🚀', t:'Uzay istasyonundaki astronotlar suyu çok dikkatli kullanır. Çünkü Dünya’dan su göndermek çok zordur. Bu yüzden istasyonda kullanılmış su temizlenir ve yeniden kullanılır.',
+   qs:[['Astronotlar suyu nasıl kullanır?',['Çok dikkatli','Bol bol','Hiç kullanmaz']],['Kullanılmış suya ne yapılır?',['Temizlenip yeniden kullanılır','Uzaya atılır','Dünya’ya gönderilir']],['Astronotlar neden suyu dikkatli kullanır?',['Dünya’dan su göndermek zor olduğu için','Su tatsız olduğu için','Suyu sevmedikleri için']]]},
+  {p:'📚', t:'Okulumuzun kütüphanesine yeni kitaplar geldi. Kütüphane görevlisi, en çok kitap okuyan öğrenciye ay sonunda ödül vereceğini açıkladı. Bunu duyan öğrenciler kütüphaneye akın etti.',
+   qs:[['Kütüphaneye ne geldi?',['Yeni kitaplar','Yeni bilgisayarlar','Yeni masalar']],['Ödül kime verilecek?',['En çok kitap okuyan öğrenciye','En hızlı koşan öğrenciye','En uzun yazan öğrenciye']],['"Akın etti" ne anlama gelir?',['Çok sayıda gitti','Yavaşça yürüdü','Geri döndü']],['Ödül ne zaman verilecek?',['Ay sonunda','Yarın','Yaz tatilinde']]]}
+]};
+
+const STICKERS = ['🦊','🐼','🦁','🐸','🐙','🦄','🐢','🦒','🐧','🦋','🐬','🦉','🐨','🦔','🐝','🐞','🦜','🐳','🦩','🐿️','🦕','🐯','🐮','🐹','🦅','🐺','🦓','🦘','🐋','🦚'];
+const PRAISE = ['Aferin!','Harika!','Süpersin!','Çok güzel!','Bravo!','Tebrikler!','İşte bu!','Mükemmel!'];
+const TRY = ['Bir daha dene!','Yaklaştın!','Sen yaparsın!','Tekrar bak!'];
+// g: bölüm başlığı (büyük / küçük sınıf) · min: en düşük sınıf · k: 3–4. sınıfta gösterilecek ad
+const MODS = [
+  {g:['Cümlenin ögeleri','Cümle'], id:'ozne',ad:'Özne',q:'KİM? NE?',c:'--who',e:'🧑',d:'İşi yapanı bul',k:{ad:'Kim?',q:'İŞİ YAPAN',d:'İşi yapanı bul'}},
+  {id:'yuklem',ad:'Yüklem',q:'NE YAPIYOR?',c:'--doing',e:'🏃',d:'İş, oluş ya da hareketi bul',k:{ad:'Ne yapıyor?',q:'YAPILAN İŞ',d:'Yapılan işi bul'}},
+  {id:'nesne',ad:'Nesne',q:'NEYİ? NE?',c:'--what',e:'📦',d:'İşten etkilenen ögeyi bul',k:{ad:'Neyi?',q:'İŞTEN ETKİLENEN',d:'Neyin yapıldığını bul'}},
+  {id:'tumlec',min:5,ad:'Tümleçler',q:'NEREYE? NASIL?',c:'--where',e:'🧭',d:'Dolaylı tümleç ve zarf tümleci'},
+  {id:'kur',ad:'Cümle Kur',q:'SIRALA',c:'--build',e:'🧩',d:'Öge öbeklerini sıraya koy',k:{d:'Kelimeleri sıraya koy'}},
+  {g:['Sözcük bilgisi','Kelimeler'], id:'anlam',ad:'Kelime Anlamı',q:'EŞ · ZIT · DEYİM',c:'--mean',e:'💡',d:'Eş ve zıt anlam, deyimler',k:{q:'EŞ · ZIT',d:'Eş anlamlı, zıt anlamlı'}},
+  {id:'tur',ad:'Kelime Türleri',q:'İSİM Mİ? SIFAT MI?',c:'--kind',e:'🏷️',d:'İsim, sıfat, zamir, fiil, zarf',k:{d:'İsim, sıfat, fiil'}},
+  {id:'zamir',ad:'Zamirler',q:'BEN · SEN · O',c:'--pron',e:'👉',d:'Zamirler ve kişi uyumu'},
+  {id:'sayi',ad:'Tekil · Çoğul',q:'-LER / -LAR',c:'--num',e:'🔢',d:'Bir mi, çok mu?'},
+  {id:'ek',ad:'Hâl Ekleri',q:'-E · -DE · -DEN',c:'--case',e:'🔗',d:'Doğru eki seç',k:{ad:'Nereye? Nerede?',d:'Doğru eki seç'}},
+  {id:'zaman',ad:'Fiil Zamanları',q:'DÜN · ŞİMDİ · YARIN',c:'--when',e:'⏳',d:'Geçmiş, şimdiki, gelecek, geniş',k:{ad:'Zaman',d:'Dün, şimdi, yarın'}},
+  {g:['Anlama','Anlama'], id:'anlama',ad:'Okuduğunu Anlama',q:'OKU · CEVAPLA',c:'--read',e:'📖',d:'Kısa metinler ve sorular'},
+  {id:'karisik',ad:'Karışık',q:'HEPSİ',c:'--mix',e:'🎲',d:'Her konudan soru'}
+];
+
+/* ================== DURUM ================== */
+const KEY='dilBahcesi.v1';
+const DEF={name:'Ahmet Taha',grade:6,stars:0,stickers:[],mod:{},set:{sound:true,speak:true,rate:0.9,colors:true,big:false,round:12}};
+let S=(()=>{let d=null;try{d=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
+  d=Object.assign({},DEF,d||{});d.set=Object.assign({},DEF.set,d.set||{});if(!d.name)d.name=DEF.name;
+  if(![3,4,5,6].includes(d.grade))d.grade=6;
+  // Eski sürümdeki (sınıfsız) ilerlemeyi 6. sınıfa taşı
+  Object.keys(d.mod||{}).forEach(k=>{if(!k.includes(':')){d.mod['6:'+k]=d.mod[k];delete d.mod[k]}});
+  return d})();
+let ROUND=S.set.round;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const small=()=>S.grade<=4;                          // 3–4. sınıf: terim yerine soru kelimeleri
+const lbl=r=>small()?ROLE[r].kid:ROLE[r].ad;
+const L=m=>small()&&m.k?Object.assign({},m,m.k):m;   // sınıfa göre modül adı
+const visibleMods=()=>MODS.filter(m=>!m.min||S.grade>=m.min);
+// Sınıfa uygun soru seç: %65 seçili sınıftan, kalanı alt sınıflardan (tekrar)
+function gp(obj,f=()=>true){
+  const g=S.grade,cur=(obj[g]||[]).filter(f);
+  const all=Object.keys(obj).filter(k=>+k<=g).flatMap(k=>obj[k]).filter(f);
+  return cur.length&&Math.random()<.65?rnd(cur):rnd(all.length?all:cur);
+}
+const SENT={};Object.keys(SENT_RAW).forEach(g=>SENT[g]=SENT_RAW[g].map(str=>{
+  const [p,...rest]=str.split('|');return {p,w:rest.map(x=>{const i=x.lastIndexOf(':');return [x.slice(0,i),x.slice(i+1)]})};
+}));
+
+/* ---- Ses efektleri ---- */
+let AC=null;
+function tone(seq){ if(!S.set.sound)return;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const t0=AC.currentTime;
+    seq.forEach(([f,st,du,type='sine',vol=.18])=>{const o=AC.createOscillator(),g=AC.createGain();
+      o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t0+st);g.gain.linearRampToValueAtTime(vol,t0+st+.02);
+      g.gain.exponentialRampToValueAtTime(.001,t0+st+du);o.connect(g).connect(AC.destination);o.start(t0+st);o.stop(t0+st+du+.05)});
+  }catch(e){} }
+const SFX={
+  tap:()=>tone([[660,0,.08,'triangle',.08]]),
+  good:()=>tone([[523,0,.18],[659,.1,.18],[784,.2,.3],[1047,.32,.35]]),
+  bad:()=>tone([[330,0,.18,'triangle',.12],[262,.15,.25,'triangle',.12]]),
+  win:()=>tone([[523,0,.2],[659,.15,.2],[784,.3,.2],[1047,.45,.5],[1319,.6,.6]])
+};
+/* ---- Sesli okuma ---- */
+let trVoice=null;
+function pickVoice(){try{const v=speechSynthesis.getVoices();trVoice=v.find(x=>/^tr/i.test(x.lang))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+// Android uygulamasında telefonun kendi Türkçe sesi kullanılır (Capacitor TextToSpeech eklentisi)
+const NATIVE_TTS=(()=>{try{const C=window.Capacitor;if(!C||!C.isNativePlatform||!C.isNativePlatform())return null;
+  return C.registerPlugin?C.registerPlugin('TextToSpeech'):(C.Plugins&&C.Plugins.TextToSpeech)||null}catch(e){return null}})();
+function speak(text,btn){ if(!S.set.speak)return;
+  const clean=text.replace(/___/g,'boşluk').replace(/<[^>]+>/g,'');
+  if(NATIVE_TTS){
+    try{if(btn)btn.classList.add('on');
+      NATIVE_TTS.stop().catch(()=>{}).finally(()=>NATIVE_TTS.speak({text:clean,lang:'tr-TR',rate:S.set.rate,pitch:1,volume:1})
+        .catch(()=>{}).finally(()=>btn&&btn.classList.remove('on')));}catch(e){}
+    return;
+  }
+  if(!('speechSynthesis' in window))return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean);
+    u.lang='tr-TR';if(trVoice)u.voice=trVoice;u.rate=S.set.rate;
+    if(btn){btn.classList.add('on');u.onend=u.onerror=()=>btn.classList.remove('on')}
+    speechSynthesis.speak(u)}catch(e){} }
+
+/* ---- Konfeti ---- */
+function confetti(n=90){ if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cv=$('#confetti'),cx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
+  const cs=getComputedStyle(document.documentElement);
+  const cols=['--who','--doing','--what','--where','--pron','--num','--case','--mean'].map(v=>cs.getPropertyValue(v).trim());
+  const P=Array.from({length:n},()=>({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight*.45,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*6+4,c:rnd(cols),a:Math.random()*6}));
+  let f=0;(function step(){cx.clearRect(0,0,cv.width,cv.height);
+    P.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.a+=.2;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);cx.restore()});
+    if(++f<90)requestAnimationFrame(step);else cx.clearRect(0,0,cv.width,cv.height)})(); }
+
+/* ================== SORU ÜRETİCİLER ================== */
+const markHtml=(s,u,c)=>{const i=s.indexOf(u);return esc(s.slice(0,i))+`<span class="mark" style="--c:var(${c})">${esc(u)}</span>`+esc(s.slice(i+u.length))};
+const FIND_BIG={
+  S:'Cümlede işi yapan kim ya da ne? Özneye dokun.',
+  V:'İş, oluş ya da hareket bildiren ögeye (yükleme) dokun.',
+  O:'İşten etkilenen ögeye (nesneye) dokun.',
+  P:'Nereye? Nerede? Nereden? Kime? sorusunun cevabına (dolaylı tümlece) dokun.',
+  Z:'Nasıl? Ne zaman? Niçin? sorusunun cevabına (zarf tümlecine) dokun.'
+};
+const FIND_SMALL={S:'İşi kim yapıyor? Ona dokun.',V:'Ne yapıyor? Yapılan işi gösteren kelimeye dokun.',O:'Neyi? İşten etkilenen kelimeye dokun.'};
+function qFind(role){
+  const s=gp(SENT,s=>s.w.some(x=>x[1]===role));
+  const txt=(small()&&FIND_SMALL[role])||FIND_BIG[role];
+  return {kind:'tap',role,pic:s.p,badge:small()?ROLE[role].kid:ROLE[role].soru,c:ROLE[role].c,prompt:txt,
+    speak:txt+' '+sentText(s.w),words:s.w};
+}
+function qRole(role){
+  const s=gp(SENT,s=>s.w.some(x=>x[1]===role));
+  const idx=s.w.findIndex(x=>x[1]===role),word=s.w[idx][0];
+  const roles=[...new Set(['S','V','O',...s.w.map(x=>x[1])])];
+  const opts=shuffle(roles.map(r=>({t:lbl(r),ok:r===role})));
+  const html=s.w.map((x,i)=>i===idx?`<span class="mark" style="--c:var(${ROLE[role].c})">${esc(x[0])}</span>`:esc(x[0])).join(' ')+'.';
+  const pr=small()?'İşaretli kelime hangi sorunun cevabı?':'İşaretli öge cümlenin hangi ögesidir?';
+  const note=small()?`“${esc(word)}” → <b>${ROLE[role].kid}</b> sorusunun cevabı`
+    :`“${esc(word)}” → <b>${ROLE[role].soru}</b> sorusunun cevabı → <b>${ROLE[role].ad.toLocaleLowerCase('tr')}</b>`;
+  return {kind:'choice',pic:s.p,badge:small()?'HANGİ SORU?':'HANGİ ÖGE?',c:ROLE[role].c,prompt:pr,htmlFrame:html,key:sentText(s.w)+'#'+role,
+    o:opts,note,speak:pr+' '+sentText(s.w),sayText:sentText(s.w),words:s.w};
+}
+function fromItem(it,badge,c){
+  const o=it.o||pick(it.a,WTYPES[S.grade]);
+  const q={kind:'choice',pic:it.p,badge,c,o:shuffle(o.map((t,i)=>({t,ok:i===0}))),note:it.n,key:it.s+'#'+(it.u||'')};
+  if(it.u){q.prompt=it.q;q.htmlFrame=markHtml(it.s,it.u,c);q.speak=it.q+' '+it.s;q.sayText=it.s;}
+  else{q.prompt=it.q||'Boşluğa hangisi gelir?';q.frame=it.s;q.speak=it.s;}
+  return q;
+}
+function qNoun(){
+  const [t,c,e]=rnd(NOUNS),mode=rnd(['one','many','num','num']);
+  if(mode==='one')return {kind:'choice',pic:e,badge:'BİR TANE',c:'--num',prompt:'Bu ne?',frame:'Bu bir ___.',
+    o:shuffle([{t,ok:1},{t:c}]),note:'Bir tane → <b>'+t+'</b>',speak:'Bu ne?',key:'1'+t};
+  if(mode==='many'){const k=3+Math.floor(Math.random()*3);
+    return {kind:'choice',grid:Array(k).fill(e),badge:'ÇOK',c:'--num',prompt:'Bunlar ne?',frame:'Bunlar ___.',
+      o:shuffle([{t:c,ok:1},{t}]),note:'Çok → '+t+' + <b>'+c.slice(t.length)+'</b> = '+c,speak:'Bunlar ne?',key:'m'+t};}
+  const k=2+Math.floor(Math.random()*4);
+  return {kind:'choice',grid:Array(k).fill(e),digit:k,badge:'SAYI + İSİM',c:'--num',prompt:'Boşluğa hangisi gelir?',
+    frame:'Burada '+NUMW[k]+' ___ var.',o:shuffle([{t,ok:1},{t:c}]),
+    note:'Sayıdan sonra -ler / -lar gelmez: <b>'+NUMW[k]+' '+t+'</b>',speak:'Burada '+NUMW[k]+' ___ var.',key:'n'+t};
+}
+function qPron(){return fromItem(gp(PRON),'ZAMİRLER','--pron')}
+function qPlural(){const g=S.grade;return (g===3||(g===4&&Math.random()<.5))?qNoun():fromItem(gp(PLUR),'TEKİL · ÇOĞUL','--num')}
+function qTur(){return fromItem(gp(TUR),'KELİME TÜRÜ','--kind')}
+function qEk(){return fromItem(gp(EK),small()?'NEREYE? NEREDE?':'HÂL EKLERİ','--case')}
+function qAnlam(){return fromItem(gp(ANLAM),'KELİME ANLAMI','--mean')}
+function qTime(){const it=gp(TIME),q=fromItem(it,small()?'NE ZAMAN?':'FİİL ZAMANI','--when');
+  const asksWord=['Dün','Şimdi','Yarın'].includes(it.o[0]);
+  q.timeline=(it.u||asksWord)?-1:it.t; q.timeAnswer=it.t; return q;}
+function qRead(){
+  const r=gp(READ),[qq,o]=rnd(r.qs);
+  return {kind:'choice',pic:r.p,badge:'OKU · CEVAPLA',c:'--read',prompt:'Metni oku ve soruyu cevapla.',
+    htmlFrame:`<div class="passage">${esc(r.t)}</div><p class="qtext">${esc(qq)}</p>`,key:qq,
+    o:shuffle(o.map((t,i)=>({t,ok:i===0}))),speak:r.t+' '+qq,sayText:o[0]};
+}
+function qBuild(){const s=gp(SENT,s=>s.w.length>=(small()?3:4));
+  const pr=small()?'Kelimeleri doğru sıraya koy. Yapılan iş en sonda olsun.':'Öge öbeklerini doğru sıraya koy. Yüklem sonda olsun.';
+  return {kind:'build',pic:s.p,badge:'SIRALA',c:'--build',prompt:pr,
+    words:s.w,pool:shuffle(s.w.map((w,i)=>({w:w[0],r:w[1],i}))),speak:pr};}
+const GEN={
+  ozne:()=>Math.random()<.35?qRole('S'):qFind('S'),
+  yuklem:()=>Math.random()<.35?qRole('V'):qFind('V'),
+  nesne:()=>Math.random()<.35?qRole('O'):qFind('O'),
+  tumlec:()=>{const r=rnd(['P','Z']);return Math.random()<.4?qRole(r):qFind(r)},
+  kur:qBuild,anlam:qAnlam,tur:qTur,zamir:qPron,sayi:qPlural,ek:qEk,zaman:qTime,anlama:qRead,
+  karisik:()=>GEN[rnd(visibleMods().map(m=>m.id).filter(id=>id!=='karisik'))]()
+};
+
+/* ================== EKRANLAR ================== */
+const main=$('#main');
+let G=null;
+
+function applySettings(){
+  document.documentElement.style.setProperty('--scale',(S.set.big?1.18:1)*(S.grade===3?1.06:1));
+  $('#soundBtn').setAttribute('aria-pressed',String(S.set.sound));
+  $('#soundBtn').textContent=S.set.sound?'🔊':'🔇';
+  $('#starCount').textContent=S.stars;
+}
+const statKey=(id,g=S.grade)=>g+':'+id;
+
+function home(){
+  G=null;try{NATIVE_TTS?NATIVE_TTS.stop().catch(()=>{}):speechSynthesis.cancel()}catch(e){}
+  const pct=id=>{const m=S.mod[statKey(id)];return m&&m.total?Math.round(100*m.right/m.total):0};
+  let cards='',open=false;
+  visibleMods().forEach(m0=>{const m=L(m0);
+    if(m.g){if(open)cards+='</div>';cards+=`<div class="group">${m.g[small()?1:0].toLocaleUpperCase('tr')}</div><div class="mods">`;open=true;}
+    cards+=`<button class="mod" data-m="${m.id}" style="--c:var(${m.c})">
+        <span class="em" aria-hidden="true">${m.e}</span>
+        <span class="q">${m.q}</span>
+        <h3>${m.ad}</h3><small>${m.d}</small>
+        <div class="bar" title="Başarı %${pct(m.id)}"><i style="width:${pct(m.id)}%"></i></div>
+      </button>`;
+  });
+  cards+='</div>';
+  main.innerHTML=`<section class="screen">
+    <div class="hello">
+      <div><h1>${S.name?'Merhaba, '+esc(S.name)+'!':'Merhaba!'}</h1>
+      <p>${S.grade}. sınıf Türkçe · Bir etkinlik seç. İlk denemede bildiğin her soru bir yıldız.</p></div>
+      <div class="name-row"><input id="nameIn" maxlength="24" placeholder="Adını yaz" value="${esc(S.name)}" aria-label="Adın">
+      <button class="btn ghost" id="nameOk">Kaydet</button></div>
+    </div>
+    <div class="grades" role="group" aria-label="Sınıf seç"><span>Sınıfım:</span>
+      ${[3,4,5,6].map(g=>`<button data-g="${g}" aria-pressed="${S.grade===g}">${g}. sınıf</button>`).join('')}
+    </div>
+    <div class="legend" aria-label="Renk anahtarı">
+      ${['S','V','O','P','Z'].map(r=>`<span style="--c:var(${ROLE[r].c})">${small()?ROLE[r].kid.toLocaleLowerCase('tr'):ROLE[r].ad.toLocaleLowerCase('tr')+': '+ROLE[r].soru.toLocaleLowerCase('tr')}</span>`).join('')}
+    </div>
+    ${cards}
+    <div class="home-foot">
+      <button class="btn ghost" id="albumBtn">🗂️ Koleksiyonum (${S.stickers.length}/${STICKERS.length})</button>
+      <button class="btn ghost" id="parentBtn">👪 Veli / öğretmen</button>
+    </div>
+  </section>`;
+  main.querySelectorAll('.mod').forEach(b=>b.onclick=()=>{SFX.tap();start(b.dataset.m)});
+  main.querySelectorAll('.grades button').forEach(b=>b.onclick=()=>{S.grade=+b.dataset.g;save();applySettings();SFX.tap();home()});
+  $('#nameOk').onclick=()=>{S.name=$('#nameIn').value.trim();save();SFX.tap();home()};
+  $('#nameIn').onkeydown=e=>{if(e.key==='Enter')$('#nameOk').click()};
+  $('#albumBtn').onclick=album;$('#parentBtn').onclick=parent;
+  main.scrollTop=0;
+}
+
+function start(mod){
+  ROUND=S.set.round;
+  G={mod,grade:S.grade,i:0,res:[],q:null,miss:0,done:false,used:new Set()};
+  next();
+}
+function next(){
+  if(G.i>=ROUND)return finish();
+  let q,k,guard=0;
+  do{q=GEN[G.mod]();k=q.kind+'|'+(q.key||q.frame||sentText(q.words||[]))+'|'+(q.role||'');guard++}while(guard<40&&G.used.has(k));
+  G.used.add(k);
+  G.q=q;G.miss=0;G.done=false;G.placed=[];
+  q.mod=G.mod==='karisik'?null:G.mod;
+  renderQ();
+}
+
+function renderQ(){
+  const q=G.q,showCol=S.set.colors;
+  const prog=Array.from({length:ROUND},(_,i)=>`<i class="${i<G.i?(G.res[i]?'ok':'try'):i===G.i?'now':''}"></i>`).join('');
+  const pic=q.grid?`<div class="pic grid" aria-hidden="true">${q.digit?`<span class="digit">${q.digit}</span>`:''}${q.grid.map(e=>`<span>${e}</span>`).join('')}</div>`
+    :q.pic?`<div class="pic" aria-hidden="true">${q.pic}</div>`:'';
+  let tl='';
+  if(q.timeline!=null){
+    const stops=S.grade===3?['Dün','Şimdi','Yarın']:['Geçmiş','Şimdi','Gelecek','Her zaman'];
+    tl=`<div class="timeline" aria-label="Zaman çizgisi">${stops.map((t,i)=>`<div class="st ${i===3?'always':''} ${i===q.timeline?'on':''}"><b></b>${t}</div>`).join('')}</div>`;
+  }
+  let body='';
+  if(q.kind==='tap'){
+    body=`<div class="chips" id="chips">${q.words.map((w,i)=>`<button class="chip" data-i="${i}">${esc(w[0])}</button>`).join('')}<span class="dot">.</span></div>`;
+  }else if(q.kind==='choice'){
+    body=`<div class="frame" id="frame">${q.htmlFrame||esc(q.frame).replace('___','<span class="blank" id="blank">?</span>')}</div>
+      <div class="opts" id="opts">${q.o.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o.t)}</button>`).join('')}</div>`;
+  }else{
+    body=`<div class="slots" id="slots">${q.words.map((w,i)=>`<div class="slot ${showCol?'role':''}" data-s="${i}" style="--c:var(${ROLE[w[1]].c})">${showCol?`<span class="lbl">${lbl(w[1])}</span>`:''}</div>`).join('')}<span class="dot">.</span></div>
+      <div class="chips" id="pool"></div>`;
+  }
+  main.innerHTML=`<section class="screen">
+    <div class="prog" aria-label="Soru ${G.i+1} / ${ROUND}">${prog}</div>
+    <div class="card" id="card">
+      ${pic}${tl}
+      <span class="badge" style="--c:var(${q.c})">${q.badge}</span>
+      <div class="prompt"><p>${esc(q.prompt)}</p><button class="say" id="say" aria-label="Sesli oku">🔊</button></div>
+      ${body}
+      <div class="feedback" id="fb"></div>
+    </div>
+    <div class="play-foot">
+      <button class="btn ghost" id="quit">← Çık</button>
+      <button class="btn big" id="nextBtn" hidden>Devam →</button>
+    </div>
+  </section>`;
+  $('#say').onclick=()=>speak(q.speak,$('#say'));
+  $('#quit').onclick=home;
+  $('#nextBtn').onclick=()=>{SFX.tap();G.i++;next()};
+  if(q.kind==='tap')main.querySelectorAll('#chips .chip').forEach(b=>b.onclick=()=>answerTap(b));
+  if(q.kind==='choice')main.querySelectorAll('#opts .opt').forEach(b=>b.onclick=()=>answerChoice(b));
+  if(q.kind==='build')drawPool();
+  main.scrollTop=0;
+  setTimeout(()=>speak(q.speak,$('#say')),250);
+}
+
+/* ---- cevap: dokunma ---- */
+function answerTap(b){
+  if(G.done||b.classList.contains('wrong'))return;
+  const q=G.q,i=+b.dataset.i,r=q.words[i][1];
+  if(r===q.role){b.classList.add('right');win(colored(q.words));}
+  else{b.classList.add('wrong');
+    const why=small()?`“${q.words[i][0]}” ${ROLE[r].kid.toLocaleLowerCase('tr')} sorusunun cevabı. Biz ${ROLE[q.role].kid.toLocaleLowerCase('tr')} sorusunun cevabını arıyoruz.`
+      :`“${q.words[i][0]}” bu cümlede ${ROLE[r].ad.toLocaleLowerCase('tr')}. Biz ${ROLE[q.role].ad.toLocaleLowerCase('tr')} arıyoruz (${ROLE[q.role].soru.toLocaleLowerCase('tr')}).`;
+    lose(()=>main.querySelectorAll('#chips .chip').forEach(c=>{if(q.words[+c.dataset.i][1]===q.role)c.classList.add('hint')}),why);}
+}
+/* ---- cevap: seçenek ---- */
+function answerChoice(b){
+  if(G.done||b.classList.contains('wrong'))return;
+  const q=G.q,o=q.o[+b.dataset.i];
+  if(o.ok){b.classList.add('right');const bl=$('#blank');if(bl){bl.textContent=o.t;bl.classList.add('filled')}
+    if(q.timeAnswer!=null)main.querySelectorAll('.timeline .st').forEach((st,i)=>st.classList.toggle('on',i===q.timeAnswer));
+    win((q.htmlFrame&&q.words?colored(q.words):'')+(q.note?`<div class="note">${q.note}</div>`:''),q.sayText||q.frame.replace('___',o.t));}
+  else{b.classList.add('wrong');lose(()=>main.querySelectorAll('#opts .opt').forEach(c=>{if(q.o[+c.dataset.i].ok)c.classList.add('hint')}));}
+}
+/* ---- cevap: cümle kur ---- */
+function drawPool(){
+  const q=G.q,col=S.set.colors||G.miss>=2;
+  const pool=$('#pool');
+  pool.innerHTML=q.pool.filter(p=>!G.placed.includes(p)).map(p=>`<button class="chip ${col?'role':''}" style="--c:var(${ROLE[p.r].c})" data-i="${p.i}">${esc(p.w)}</button>`).join('');
+  main.querySelectorAll('#slots .slot').forEach((sl,k)=>{
+    const p=G.placed[k];
+    const lb=col?`<span class="lbl">${lbl(q.words[k][1])}</span>`:'';
+    if(col)sl.classList.add('role');
+    sl.classList.toggle('good',!!(p&&p.ok));
+    sl.innerHTML=lb+(p?`<button class="chip ${col?'role':''}" style="--c:var(${ROLE[p.r].c})" data-back="${k}">${esc(p.w)}</button>`:'');
+  });
+  pool.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    if(G.done)return;SFX.tap();
+    const p=q.pool.find(x=>x.i===+b.dataset.i);const k=G.placed.findIndex(x=>!x);
+    G.placed[k===-1?G.placed.length:k]=p;drawPool();checkBuild();});
+  main.querySelectorAll('#slots [data-back]').forEach(b=>b.onclick=()=>{
+    if(G.done)return;const k=+b.dataset.back;if(G.placed[k]&&G.placed[k].ok)return;G.placed[k]=undefined;SFX.tap();drawPool();});
+}
+function checkBuild(){
+  const q=G.q,n=q.words.length,w=q.words.map(x=>x[0]);
+  if(G.placed.filter(Boolean).length<n)return;
+  const got=G.placed.map(p=>p.w);
+  // Türkçede ögelerin yeri değişebilir: ilk öbek ve yüklem yerindeyse ortadaki sıra serbesttir
+  const ok=got.join('|')===w.join('|')||(got[0]===w[0]&&got[n-1]===w[n-1]);
+  if(ok){G.placed.forEach(p=>p.ok=true);drawPool();
+    const alt=got.join('|')!==w.join('|')?`<div class="note">Senin cümlen de doğru. Türkçede kelimelerin yeri değişebilir; <b>yapılan iş (yüklem) genellikle sondadır</b>.</div>`:'';
+    win(colored(G.placed.map(p=>[p.w,p.r]))+alt,got.join(' ')+'.');return;}
+  G.placed.forEach((p,k)=>{if(p.w===w[k])p.ok=true});
+  lose(()=>{},got[n-1]!==w[n-1]?(small()?'Yapılan işi bul ve en sona koy.':'Yüklemi bul ve cümlenin sonuna koy.'):null,
+    ()=>{G.placed=G.placed.map(p=>p&&p.ok?p:undefined);drawPool();});
+}
+
+function colored(w){
+  return `<div class="colored">${w.map(x=>`<div style="--c:var(${ROLE[x[1]].c})"><span>${esc(x[0])}</span><small>${lbl(x[1])}</small></div>`).join('')}</div>`;
+}
+function win(extra,sayText){
+  G.done=true;const first=G.miss===0;G.res[G.i]=first;
+  const k=statKey(G.q.mod||'karisik',G.grade);S.mod[k]=S.mod[k]||{right:0,total:0};S.mod[k].total++;if(first)S.mod[k].right++;
+  if(first)S.stars++;save();applySettings();
+  SFX.good();vibrate(60);confetti(first?90:40);
+  $('#fb').innerHTML=`<div class="fb good">✔ ${rnd(PRAISE)} ${first?'⭐':''}</div>${extra||''}`;
+  $('#nextBtn').hidden=false;$('#nextBtn').focus({preventScroll:true});
+  const t=sayText||(G.q.words?sentText(G.q.words):'');
+  setTimeout(()=>speak(rnd(PRAISE)+' '+t),350);
+}
+function lose(hint,why,after){
+  G.miss++;SFX.bad();vibrate([40,60,40]);
+  const card=$('#card');card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');
+  $('#fb').innerHTML=`<div class="fb bad">✋ ${rnd(TRY)}</div>${why?`<div class="note">${esc(why)}</div>`:''}${G.miss>=2?'<div class="small">İpucu: parlayan kutuya bak.</div>':''}`;
+  if(G.miss>=2)hint();
+  if(after)setTimeout(after,700);
+}
+
+function finish(){
+  const got=G.res.filter(Boolean).length;
+  const left=STICKERS.filter(s=>!S.stickers.includes(s));
+  const st=left.length?rnd(left):rnd(STICKERS);
+  if(left.length)S.stickers.push(st);save();
+  SFX.win();confetti(160);
+  const mod=G.mod;
+  main.innerHTML=`<section class="screen done">
+    <h1>${got>=ROUND-1?'Muhteşem!':got>=ROUND/2?'Çok iyi!':'Güzel çalıştın!'}</h1>
+    <div class="stars" aria-label="${got} yıldız">${'⭐'.repeat(got)||'💪'}</div>
+    <p><b>${ROUND}</b> sorudan <b>${got}</b> tanesini ilk denemede bildin.</p>
+    <div class="sticker" aria-label="Yeni çıkartma">${st}</div>
+    <p>${left.length?'Yeni bir çıkartma kazandın! Koleksiyonuna eklendi.':'Koleksiyonun tamamen doldu! Harikasın.'}</p>
+    <div class="home-foot" style="justify-content:center">
+      <button class="btn big" id="again">↻ Tekrar oyna</button>
+      <button class="btn ghost" id="toHome">Ana sayfa</button>
+    </div></section>`;
+  $('#again').onclick=()=>start(mod);$('#toHome').onclick=home;
+  speak((S.name?S.name+', ':'')+(got>=ROUND/2?'çok iyi! ':'güzel çalıştın! ')+'Yeni bir çıkartma kazandın.');
+}
+
+function album(){
+  main.innerHTML=`<section class="screen">
+    <h1>Koleksiyonum</h1>
+    <p class="small">Her etkinliği bitirdiğinde yeni bir hayvan çıkartması kazanırsın. ${S.stickers.length} / ${STICKERS.length}</p>
+    <div class="album">${STICKERS.map(s=>S.stickers.includes(s)?`<div>${s}</div>`:'<div class="no">?</div>').join('')}</div>
+    <div><button class="btn ghost" id="toHome">← Ana sayfa</button></div></section>`;
+  $('#toHome').onclick=home;
+}
+
+/* ---- Ayarlar ve veli paneli ---- */
+function sheet(html,bind){const sh=$('#sheet');sh.innerHTML=`<div class="sheet-back" id="back"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;sh.hidden=false;
+  $('#back').onclick=e=>{if(e.target.id==='back')closeSheet()};bind&&bind();}
+function closeSheet(){$('#sheet').hidden=true;$('#sheet').innerHTML=''}
+function settings(){
+  const T=(k,l,d)=>`<div class="row"><div><label id="l-${k}">${l}</label><small>${d}</small></div><button class="tog" role="switch" id="t-${k}" aria-labelledby="l-${k}" aria-checked="${S.set[k]}"></button></div>`;
+  sheet(`<h2>Ayarlar</h2>
+    ${T('sound','Ses efektleri','Doğru / yanlış sesleri')}
+    ${T('speak','Sesli okuma','Soruları ve metinleri Türkçe okur')}
+    <div class="row"><div><label for="rate">Okuma hızı</label><small>İşitme cihazı / KİB kullananlar için yavaş önerilir</small></div>
+      <select id="rate"><option value="0.6">Çok yavaş</option><option value="0.75">Yavaş</option><option value="0.9">Orta</option><option value="1">Normal</option></select></div>
+    <div class="row"><div><label for="round">Bir turdaki soru sayısı</label><small>Yeni turda geçerli olur</small></div>
+      <select id="round"><option value="8">8 soru</option><option value="12">12 soru</option><option value="16">16 soru</option><option value="20">20 soru</option></select></div>
+    ${T('colors','Renkli ipuçları','Cümle Kur etkinliğinde kutuları renklendirir')}
+    ${T('big','Büyük yazı','Tüm yazıları büyütür')}
+    <button class="btn" id="close">Tamam</button>`,()=>{
+    ['sound','speak','colors','big'].forEach(k=>$('#t-'+k).onclick=e=>{S.set[k]=!S.set[k];e.currentTarget.setAttribute('aria-checked',S.set[k]);save();applySettings();SFX.tap()});
+    $('#rate').value=String(S.set.rate);$('#rate').onchange=e=>{S.set.rate=+e.target.value;save();speak('Merhaba, ben Dil Bahçesi.')};
+    $('#round').value=String(S.set.round);$('#round').onchange=e=>{S.set.round=+e.target.value;save();SFX.tap()};
+    $('#close').onclick=closeSheet;});
+}
+function parent(){
+  const rows=[3,4,5,6].map(g=>{
+    const ids=MODS.filter(m=>!m.min||g>=m.min);
+    let t=0,r=0;ids.forEach(m=>{const s=S.mod[statKey(m.id,g)];if(s){t+=s.total;r+=s.right}});
+    return {g,t,r,ids};
+  });
+  const cur=rows.find(x=>x.g===S.grade);
+  const detail=cur.ids.map(m=>{const r=S.mod[statKey(m.id)]||{right:0,total:0};const p=r.total?Math.round(100*r.right/r.total):null;
+    return `<tr><td>${L(m).ad}</td><td>${r.total}</td><td>${r.right}</td><td>${p==null?'–':'%'+p}</td></tr>`}).join('');
+  sheet(`<h2>Veli / öğretmen paneli</h2>
+    <p class="small">Tüm sınıflar · “ilk denemede doğru” oranı</p>
+    <div style="overflow-x:auto"><table><thead><tr><th>SINIF</th><th>SORU</th><th>İLK SEFERDE</th><th>ORAN</th></tr></thead><tbody>
+    ${rows.map(x=>`<tr><td>${x.g}. sınıf${x.g===S.grade?' ◀':''}</td><td>${x.t}</td><td>${x.r}</td><td>${x.t?'%'+Math.round(100*x.r/x.t):'–'}</td></tr>`).join('')}
+    </tbody></table></div>
+    <p class="small">${S.grade}. sınıf · konulara göre</p>
+    <div style="overflow-x:auto"><table><thead><tr><th>KONU</th><th>SORU</th><th>İLK SEFERDE</th><th>ORAN</th></tr></thead><tbody>${detail}</tbody></table></div>
+    <div class="note" style="font-weight:600">Sorular 3–6. sınıf Türkçe dersi konularına göre sınıflandırılmıştır. Her turda soruların çoğu seçilen sınıftan, bir kısmı tekrar için alt sınıflardan gelir. 3. ve 4. sınıfta öge adları yerine soru kelimeleri (<b>Kim?</b>, <b>Ne yapıyor?</b>, <b>Neyi?</b>) kullanılır. Renk düzeni <b>Renkli Anlambilim</b> (Colourful Semantics) yöntemine dayanır. Uygulama, öğretmen, odyolog ve dil-konuşma terapistinin çalışmasını destekler; yerine geçmez.</div>
+    <div class="home-foot"><button class="btn ghost" id="reset">İlerlemeyi sıfırla</button><button class="btn" id="close">Kapat</button></div>`,()=>{
+    $('#close').onclick=closeSheet;
+    const r=$('#reset');r.onclick=()=>{if(r.dataset.sure){S.mod={};S.stars=0;S.stickers=[];save();applySettings();closeSheet();home()}
+      else{r.dataset.sure=1;r.textContent='Emin misiniz? Tekrar dokunun';r.style.borderColor='var(--bad)'}};});
+}
+
+/* ================== BAŞLAT ================== */
+$('#homeBtn').onclick=home;
+$('#setBtn').onclick=settings;
+$('#soundBtn').onclick=()=>{S.set.sound=!S.set.sound;save();applySettings();SFX.tap()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet()});
+applySettings();home();
+
+/* ================== ÇEVRİMDIŞI ÇALIŞMA ================== */
+if('serviceWorker' in navigator && location.protocol!=='file:' && !window.Capacitor){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

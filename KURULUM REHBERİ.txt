@@ -1,0 +1,125 @@
+DİL BAHÇESİ – UYGULAMA KURULUM REHBERİ
+======================================
+
+Bu klasörden şu kurulum dosyaları üretilir (hepsinde Dil Bahçesi simgesi vardır):
+
+  Android telefon ve tablet ......... DilBahcesi-Android.apk
+  Windows bilgisayar ................ DilBahcesi-...-win-x64.exe
+  Mac bilgisayar .................... DilBahcesi-...-mac-universal.dmg
+  Linux bilgisayar .................. DilBahcesi-...-linux-x86_64.AppImage
+  iPhone ve iPad .................... web adresi → "Ana Ekrana Ekle" (aşağıda)
+
+Dosyaları sizin yerinize GitHub'ın ücretsiz bilgisayarları derler.
+Bilgisayarınıza program kurmanız gerekmez; yalnızca bir GitHub hesabı gerekir.
+
+
+──────────────────────────────────────────────
+A) KURULUM DOSYALARINI ÜRETMEK (bir kez yapılır, ~20 dakika)
+──────────────────────────────────────────────
+
+1. https://github.com adresinden ücretsiz hesap açın.
+
+2. Sağ üstteki "+" → "New repository" seçin.
+   - Repository name: dil-bahcesi
+   - "Public" seçin (indirme sayfasını aileler de görebilsin diye)
+   - "Add a README file" kutusunu İŞARETLEYİN
+   - "Create repository" düğmesine basın.
+
+3. Açılan sayfada "Add file" → "Upload files" seçin.
+   Bu klasördeki şu dosya ve klasörleri sürükleyip bırakın:
+       www   assets   build   electron
+       package.json   capacitor.config.json
+   Altta "Commit changes" düğmesine basın.
+
+4. Derleme dosyasını ekleyin (gizli klasörde olduğu için ayrıca eklenir):
+   - "Add file" → "Create new file" seçin.
+   - Dosya adı kutusuna tam olarak şunu yazın:
+         .github/workflows/derle.yml
+   - Bu klasördeki "github-derleme-dosyasi.yml" dosyasını Not Defteri ile açın,
+     içindekilerin tamamını kopyalayıp büyük kutuya yapıştırın.
+   - "Commit changes" düğmesine basın.
+
+5. Derleme kendiliğinden başlar. Üstteki "Actions" sekmesinden izleyebilirsiniz.
+   Yaklaşık 15–20 dakika sonra her satırın yanında yeşil ✓ görünür.
+
+6. Depo ana sayfasında sağ taraftaki "Releases" bölümüne tıklayın.
+   "Dil Bahçesi – sürüm 1" sayfasında tüm kurulum dosyaları hazırdır.
+   Bu sayfanın adresini öğrencilere ve ailelere gönderebilirsiniz.
+
+   (Yeşil ✓ yerine kırmızı ✗ görürseniz: "Actions" → başarısız satır →
+    "Re-run all jobs" ile bir kez daha deneyin. Yine olmazsa hatanın ekran
+    görüntüsünü alın.)
+
+
+──────────────────────────────────────────────
+B) CİHAZLARA KURMAK
+──────────────────────────────────────────────
+
+ANDROID (telefon / tablet)
+  1. Releases sayfasını telefonda açıp DilBahcesi-Android.apk dosyasını indirin.
+  2. İndirilen dosyaya dokunun.
+  3. "Bilinmeyen uygulamaları yükle" izni sorulursa tarayıcıya izin verin.
+  4. "Yükle" deyin. Dil Bahçesi simgesi ana ekrana gelir.
+  Sesli okuma için telefonda Türkçe ses gerekir:
+  Ayarlar → Erişilebilirlik (veya Sistem → Diller) → Metin okuma çıkışı →
+  "Google Konuşma Hizmetleri" → Türkçe ses verisini indirin.
+
+WINDOWS
+  1. .exe dosyasını indirip çift tıklayın.
+  2. "Windows bilgisayarınızı korudu" uyarısı çıkarsa:
+     "Ek bilgi" → "Yine de çalıştır".  (Uygulama ücretli dijital imza
+     taşımadığı için bu uyarı normaldir.)
+  3. Kurulum bitince masaüstünde Dil Bahçesi simgesi oluşur.
+
+MAC
+  1. .dmg dosyasını açın, Dil Bahçesi'ni "Uygulamalar" klasörüne sürükleyin.
+  2. İlk açılışta uyarı çıkarsa: Uygulamalar klasöründe simgeye
+     sağ tıklayın → "Aç" → tekrar "Aç".
+     (Yeni macOS'ta: Sistem Ayarları → Gizlilik ve Güvenlik → "Yine de Aç".)
+
+LINUX
+  .AppImage dosyasına sağ tıklayın → Özellikler → "Çalıştırılabilir" işaretleyin
+  → çift tıklayın.
+
+iPHONE / iPAD
+  Apple, App Store dışından uygulama kurulmasına izin vermez. En kolay yol:
+  1. "www" klasörünü https://app.netlify.com/drop sayfasına sürükleyin;
+     size https://...netlify.app ile biten bir adres verilir.
+  2. Bu adresi iPhone/iPad'de SAFARİ ile açın.
+  3. Paylaş düğmesi (□↑) → "Ana Ekrana Ekle".
+  Simgeli, tam ekran açılan ve internetsiz de çalışan bir uygulama olur.
+  (App Store'da yayınlamak için Mac bilgisayar ve yıllık ücretli Apple
+   geliştirici hesabı gerekir.)
+
+
+──────────────────────────────────────────────
+C) KOLAY YOL: GitHub OLMADAN (yalnızca Android ve Windows)
+──────────────────────────────────────────────
+  1. "www" klasörünü https://app.netlify.com/drop sayfasına yükleyin.
+  2. https://www.pwabuilder.com sayfasına verilen adresi yazın → "Start".
+  3. "Package for stores" → Android veya Windows → "Generate".
+  4. İndirilen zip içinde kuruluma hazır dosya bulunur
+     (Android için .apk, Windows için .msix).
+
+
+──────────────────────────────────────────────
+D) SORU EKLEMEK VE GÜNCELLEMEK
+──────────────────────────────────────────────
+  1. Soruları www/index.html içinde değiştirin (listeler: SENT, PRON, PLUR,
+     TIME, TUR, EK, ANLAM, READ — her biri sınıflara ayrılmıştır).
+  2. GitHub'da www klasörüne girip "Add file" → "Upload files" ile yeni
+     index.html dosyasını yükleyin → "Commit changes".
+  3. Derleme kendiliğinden yeniden çalışır ve "sürüm 2" oluşur.
+     Cihazlara yeni dosyayı kurmak yeterlidir; ilerleme (yıldızlar) korunur.
+  Web (Netlify) sürümünü kullananlar için: www/sw.js içindeki
+  'dil-bahcesi-v4' yazısını her güncellemede bir artırın (v5, v6 ...).
+
+
+KLASÖRDEKİLER
+  www/                    Uygulamanın kendisi (sorular index.html içinde)
+  assets/                 Android simgesi ve açılış ekranı
+  build/, electron/       Windows / Mac / Linux uygulaması ve simgesi
+  package.json            Gerekli parçaların listesi
+  capacitor.config.json   Android uygulama adı ve kimliği
+  .github/workflows/      Otomatik derleme (gizli klasör)
+  github-derleme-dosyasi.yml   Aynı derleme dosyasının görünür kopyası

@@ -1,0 +1,95 @@
+# Dil Bahçesi – otomatik derleme
+# Bu dosya GitHub'a her yüklemede Android (.apk), Windows (.exe), Mac (.dmg)
+# ve Linux (.AppImage) kurulum dosyalarını üretir ve "Releases" sayfasında yayınlar.
+name: Uygulamayı derle
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  android:
+    name: Android (.apk)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Paketleri kur
+        run: npm install --no-audit --no-fund
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+      - name: Android projesini hazırla
+        run: |
+          rm -rf android
+          npx cap add android
+          npx capacitor-assets generate --android
+          npx cap sync android
+      - name: APK derle
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk ../DilBahcesi-Android.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: DilBahcesi-Android.apk
+
+  masaustu:
+    name: Masaüstü (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Paketleri kur
+        run: npm install --no-audit --no-fund
+      - name: Uygulamayı derle
+        run: npx electron-builder --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: masaustu-${{ matrix.os }}
+          if-no-files-found: error
+          path: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.AppImage
+
+  yayinla:
+    name: İndirme sayfasını oluştur
+    needs: [android, masaustu]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dosyalar
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: surum-${{ github.run_number }}
+          name: Dil Bahçesi – sürüm ${{ github.run_number }}
+          body: |
+            **Kurulum dosyaları**
+            - Android telefon / tablet: `DilBahcesi-Android.apk`
+            - Windows: `DilBahcesi-...-win-x64.exe`
+            - Mac: `DilBahcesi-...-mac-universal.dmg`
+            - Linux: `DilBahcesi-...-linux-x86_64.AppImage`
+            iPhone / iPad için uygulamanın web adresini Safari'de açıp Paylaş → "Ana Ekrana Ekle" seçin.
+          files: dosyalar/*

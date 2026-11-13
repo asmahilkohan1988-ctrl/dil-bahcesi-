@@ -1,0 +1,21 @@
+{
+  "name": "Dil Bahçesi",
+  "short_name": "Dil Bahçesi",
+  "description": "İşitme kaybı olan 3–6. sınıf öğrencileri için Türkçe dil bilgisi ve okuduğunu anlama etkinlikleri.",
+  "lang": "tr",
+  "dir": "ltr",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#EAF3F6",
+  "theme_color": "#0C7480",
+  "categories": ["education", "kids"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
